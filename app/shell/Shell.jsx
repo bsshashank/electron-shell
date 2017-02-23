@@ -23,6 +23,7 @@ const appCfg = app.sysConfig()
  */
 class Shell extends React.Component {
 
+  reactor: Object
   title: string
   sqlDB: SqlDatabase
   docDB: DocumentDatabase
@@ -124,7 +125,7 @@ Shell.childContextTypes = {
 
 function dataBinding(props) {
   return {
-    plugins: ['plugins']
+    shell: ['shell']
   }
 }
 
