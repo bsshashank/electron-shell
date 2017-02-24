@@ -12,6 +12,9 @@ import TripleStore from './services/TripleStore'
 
 import Window from './Window'
 
+import ExtensionManager from './services/ExtensionManager'
+import ShellStore from './store/ShellStore'
+
 const app = electron.remote.app
 const appCfg = app.sysConfig()
 
@@ -23,11 +26,11 @@ const appCfg = app.sysConfig()
  */
 class Shell extends React.Component {
 
-  reactor: Object
   title: string
   sqlDB: SqlDatabase
   docDB: DocumentDatabase
   graphDB: TripleStore
+  extensionManager: ExtensionManager
 
   /**
    * Creates an instance of Shell.
@@ -39,6 +42,12 @@ class Shell extends React.Component {
     this.sqlDB = new SqlDatabase(appCfg.app.name)
     this.docDB = new DocumentDatabase(appCfg.app.name)
     this.graphDB = new TripleStore(appCfg.app.name)
+
+    this.extensionManager = new ExtensionManager(appCfg)
+
+    this.props.reactor.registerStores({
+      'shell': ShellStore
+    });
   }
 
   /**
@@ -51,7 +60,8 @@ class Shell extends React.Component {
       appConfig: appCfg,
       documentDatabase: this.docDB,
       graphDatabase: this.graphDB,
-      sqlDatabase: this.sqlDB
+      sqlDatabase: this.sqlDB,
+      extensionManager: this.extensionManager
     }
   }
 
@@ -120,7 +130,12 @@ Shell.childContextTypes = {
   appConfig: React.PropTypes.object.isRequired,
   documentDatabase: React.PropTypes.object.isRequired,
   graphDatabase: React.PropTypes.object.isRequired,
-  sqlDatabase: React.PropTypes.object.isRequired
+  sqlDatabase: React.PropTypes.object.isRequired,
+  extensionManager: React.PropTypes.object.isRequired
+}
+
+Shell.propTypes = {
+  reactor: React.PropTypes.object.isRequired
 }
 
 function dataBinding(props) {

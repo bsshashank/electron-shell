@@ -27,17 +27,12 @@ const WindowStyle = {
  */
 class Window extends React.Component {
 
-  constructor (props) {
-    super(props)
-  }
-
   /**
    *
    *
    * @returns
    */
   render () {
-
     var headerComponents = {}
 
     if (this.props.platform !== 'darwin') {
