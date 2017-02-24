@@ -7,6 +7,7 @@ import { Link } from 'react-router'
 import { connect } from 'nuclear-js-react-addons'
 
 import DocumentDatabase from './services/DocumentDatabase'
+import FileStorage from './services/FileStorage'
 import SqlDatabase from './services/SqlDatabase'
 import TripleStore from './services/TripleStore'
 
@@ -32,6 +33,7 @@ class Shell extends React.Component {
   sqlDB: SqlDatabase
   docDB: DocumentDatabase
   graphDB: TripleStore
+  fileStore: FileStorage
   extensionManager: ExtensionManager
   shellActions: ShellActions
 
@@ -45,8 +47,9 @@ class Shell extends React.Component {
     this.sqlDB = new SqlDatabase(appCfg.app.name)
     this.docDB = new DocumentDatabase(appCfg.app.name)
     this.graphDB = new TripleStore(appCfg.app.name)
+    this.fileStore = new FileStorage(appCfg)
 
-    this.extensionManager = new ExtensionManager(appCfg)
+    this.extensionManager = new ExtensionManager(appCfg, this.fileStore)
 
     this.props.reactor.registerStores({
       'shell': ShellStore

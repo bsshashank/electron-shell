@@ -13,35 +13,26 @@ import uri from 'url'
 class ExtensionManager {
 
   extensionFolder: string
+  fileStorage: Object
 
-  constructor(appConfig:Object) {
-
-    this.extensionFolder = path.join(appConfig.paths.appPath, 'plugins')
-
-    try {
-      if (!fs.existsSync(this.extensionFolder)) {
-        fs.mkdirSync(this.extensionFolder)
-      }
-      fs.accessSync(this.extensionFolder, fs.R_OK | fs.W_OK)
+  constructor(appConfig:Object, fileStorage:Object) {
+    this.fileStorage = fileStorage
+    this.extensionFolder = path.join(this.fileStorage.baseFolder, 'Plugins')
+    if(!fs.existsSync(this.extensionFolder)) {
+      fs.mkdirSync(this.extensionFolder)
     }
-    catch(err) {
-      // can't write to app folder, create a plugin structure in user folder instead
-      this.extensionFolder = path.join(appConfig.paths.data, 'plugins')
-      const baseDependencies = path.join(appConfig.paths.appPath, 'node_modules')
-      const symlink = path.join(appConfig.paths.data, 'node_modules')
-      if (!fs.existsSync(symlink) && (fs.existsSync(baseDependencies))) {
-        fs.symlinkSync(baseDependencies, symlink, 'dir')
-      }
-      if(!fs.existsSync(this.extensionFolder)) {
-        fs.mkdirSync(this.extensionFolder)
-      }
+    const baseDependencies = path.join(appConfig.paths.appPath, 'node_modules')
+    const symlink = path.join(this.fileStorage.baseFolder, 'node_modules')
+    if (!fs.existsSync(symlink) && (fs.existsSync(baseDependencies))) {
+      fs.symlinkSync(baseDependencies, symlink, 'junction')
     }
   }
 
-  tryLoadExtension(extensionName: string): ?Object {
-    let extensionInfo: ?Object = null
+  tryLoadExtension(extensionName: string): any {
+    let extensionInfo: any = null
+    process.noAsar = false
+
     try {
-      process.noAsar = false
       const extension = require(path.join(this.extensionFolder, extensionName))
       const extensionMeta = require(path.join(this.extensionFolder, extensionName, '/package.json'))
       extensionInfo = {
@@ -57,6 +48,20 @@ class ExtensionManager {
     }
     // process.noAsar = true
     return extensionInfo
+  }
+
+  installExtension(from: string) {
+    if (fs.lstatSync(from).isDirectory()) {
+      console.log('Handling of unpacked plugin...')
+    }
+    else {
+      console.log('About to install plugin from ', from)
+
+    }
+  }
+
+  uninstallExtension(extensionName: string) {
+
   }
 }
 

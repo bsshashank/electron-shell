@@ -192,6 +192,7 @@
       },
       host: hostname,
       platform: process.platform,
+      defaultLocale: app.getLocale(),
       user: username,
       paths: {
         appPath: appPath,
