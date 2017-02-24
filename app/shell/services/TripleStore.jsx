@@ -2,7 +2,9 @@
 import { Store } from 'rdfstore'
 
 /**
+ * Provides access to a RDF triple store (aka graph-style database).
  *
+ * @class TripleStore
  */
 class TripleStore {
 

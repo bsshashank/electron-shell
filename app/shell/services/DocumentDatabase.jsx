@@ -6,7 +6,8 @@ PouchDB.plugin(require('pouchdb-find'))
 PouchDB.plugin(require('pouchdb-quick-search'))
 
 /**
- *
+ * Provides access to a document-style database
+ * that stores JSON docs and allows to index and query for them.
  *
  * @class DocumentDatabase
  */

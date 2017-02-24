@@ -2,7 +2,7 @@
 import lf from 'lovefield'
 
 /**
- *
+ *  Provides access to a SQLite-style database API.
  *
  * @class SqlDatabase
  */
