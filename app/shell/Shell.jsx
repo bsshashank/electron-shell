@@ -13,6 +13,8 @@ import TripleStore from './services/TripleStore'
 import Window from './Window'
 
 import ExtensionManager from './services/ExtensionManager'
+
+import ShellActions from './actions/ShellActions'
 import ShellStore from './store/ShellStore'
 
 const app = electron.remote.app
@@ -31,6 +33,7 @@ class Shell extends React.Component {
   docDB: DocumentDatabase
   graphDB: TripleStore
   extensionManager: ExtensionManager
+  shellActions: ShellActions
 
   /**
    * Creates an instance of Shell.
@@ -48,6 +51,10 @@ class Shell extends React.Component {
     this.props.reactor.registerStores({
       'shell': ShellStore
     });
+
+    // mount all available extensions
+    this.shellActions = new ShellActions(this.props.reactor, this.docDB, this.extensionManager)
+    this.shellActions.mountAvailableExtensions()
   }
 
   /**

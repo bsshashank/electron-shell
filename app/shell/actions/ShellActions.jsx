@@ -18,7 +18,7 @@ class ShellActions {
     let extensions = []
     // blah blah folder lookup
     // blah blah loading asar files via ExtensionManager
-    this.reactor.dispatch(ActionTypes.MOUNT_AVAILABLE_EXTENSIONS, extensions)
+    this.reactor.dispatch(ActionTypes.MOUNT_AVAILABLE_EXTENSIONS, { extensions: extensions })
   }
 
   activateExtension (extension:string) {
@@ -52,3 +52,5 @@ class ShellActions {
     this.reactor.dispatch(ActionTypes.UPDATE_SETTINGS, { extension: extension, settings: settings })
   }
 }
+
+export default ShellActions
