@@ -5,9 +5,8 @@ import Radium from 'radium'
 const appTitleStyle = {
   WebkitUserSelect: 'none',
   cursor: 'default',
-  fontFamily: 'Roboto',
+  fontFamily: 'Segoe UI',
   fontSize: '12px',
-  color: '#ffffff',
   paddingLeft: '10px',
   paddingBottom: '5px'
 }

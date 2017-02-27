@@ -13,6 +13,10 @@ class Home extends React.Component {
   constructor (props, context) {
     super (props, context)
     this._extensionManager = context.extensionManager
+
+    this.state = {
+      paneOpened: false
+    }
   }
 
   render () {
@@ -33,12 +37,10 @@ class Home extends React.Component {
 
     <SplitView.Command
       label="Home"
-      icon="home"
-      onInvoked={this.handleGoToHome} />
+      icon="home" />
     <SplitView.Command
       label="Settings"
-      icon="settings"
-      onInvoked={this.handleGoToSettings} />
+      icon="settings" />
       </div>)
 
     return (

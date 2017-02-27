@@ -23,7 +23,7 @@ class MaximizeButton extends React.Component {
       btnStyles = [winButtonStyle.base]
       icon = (
         <svg x='0px' y='0px' viewBox='0 0 10.2 10.2' style={[winIconStyle]}>
-          <path fill='#ffffff' d='M2.1,0v2H0v8.1h8.2v-2h2V0H2.1z M7.2,9.2H1.1V3h6.1V9.2z M9.2,7.1h-1V2H3.1V1h6.1V7.1z'></path>
+          <path fill='#000000' d='M2.1,0v2H0v8.1h8.2v-2h2V0H2.1z M7.2,9.2H1.1V3h6.1V9.2z M9.2,7.1h-1V2H3.1V1h6.1V7.1z'></path>
         </svg>
       )
     } else {

@@ -23,7 +23,7 @@ export const winButtonStyle = {
     },
     ':hover': {
       transition: 'background-color 0.1s',
-      backgroundColor: 'rgba(255, 255, 255, .13)'
+      backgroundColor: 'rgba(0, 0, 0, .13)'
     }
   },
   close: {

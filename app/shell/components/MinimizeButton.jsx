@@ -23,7 +23,7 @@ class MinimizeButton extends React.Component {
       btnStyles = [winButtonStyle.base]
       icon = (
         <svg x='0px' y='0px' viewBox='0 0 10.2 1' style={[winIconStyle]}>
-          <rect fill='#ffffff' width='10.2' height='1'></rect>
+          <rect fill='#000000' width='10.2' height='1'></rect>
         </svg>
       )
     } else {

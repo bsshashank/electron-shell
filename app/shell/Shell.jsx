@@ -156,7 +156,7 @@ class Shell extends ConnectedReactComponent {
 
     if (this._appCfg.platform !== 'darwin') {
       headerComponents = (
-        <div style={{height: '24px', flex: 1, alignContent: 'flex-end', alignItems: 'flex-end', justifyContent: 'flex-end', display: 'flex', padding: '2px', backgroundColor: '#03a9f4'}}>
+        <div style={{height: '24px', flex: 1, alignContent: 'flex-end', alignItems: 'flex-end', justifyContent: 'flex-end', display: 'flex', padding: '2px', backgroundColor: '#f2f2f2'}}>
           <AppTitle title={this.state.title} />
           <DragHandler key='left' />
           <MinimizeButton platform={this._appCfg.platform} clickHandler={this.minimizeApp.bind(this)} />
@@ -166,7 +166,7 @@ class Shell extends ConnectedReactComponent {
       )
     } else {
       headerComponents = (
-        <div style={{height: '24px', flex: 1, alignContent: 'flex-start', alignItems: 'flex-start', justifyContent: 'flex-start', display: 'flex', padding: '2px', backgroundColor: '#03a9f4'}}>
+        <div style={{height: '24px', flex: 1, alignContent: 'flex-start', alignItems: 'flex-start', justifyContent: 'flex-start', display: 'flex', padding: '2px', backgroundColor: '#f2f2f2'}}>
           <CloseButton platform={this._appCfg.platform} clickHandler={this.closeApp.bind(this)} />
           <MinimizeButton platform={this._appCfg.platform} clickHandler={this.minimizeApp.bind(this)} />
           <MaximizeButton platform={this._appCfg.platform} clickHandler={this.toggleFullScreen.bind(this)} />
