@@ -89,7 +89,7 @@ class Shell extends React.Component {
    *
    * @return {type}  description
    */
-  toggleFullScreen () {
+  toggleFullScreen () {    
     app.toggleFullscreen()
   }
 

@@ -20,17 +20,6 @@ const appTitleStyle = {
  */
 class AppTitle extends React.Component {
 
-
-  /**
-   * Creates an instance of AppTitle.
-   *
-   * @param {any} props
-   */
-  constructor (props) {
-    super(props)
-  }
-
-
   /**
    *  renders the application title
    *

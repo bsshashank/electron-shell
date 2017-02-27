@@ -18,7 +18,7 @@ class DocumentDatabase {
    *
    * @type {PouchDB}
    */
-  db: PouchDB
+  _db: PouchDB
 
   /**
    * Creates an instance of DocumentDatabase.
@@ -27,7 +27,7 @@ class DocumentDatabase {
    * @param {number} [dbVersion=1]
    */
   constructor (dbName:string, dbVersion:number = 1) {
-    this.db = new PouchDB(`${dbName}.${dbVersion}`, {
+    this._db = new PouchDB(`${dbName}.${dbVersion}`, {
       adapter: 'idb',
       storage: 'persistent'
     })
@@ -49,15 +49,15 @@ class DocumentDatabase {
       doc.timestamp = new Date()
     }
 
-    var promise = Promise.resolve(this.db.get(doc._id).then((result) => {
+    var promise = Promise.resolve(this._db.get(doc._id).then((result) => {
       if ((result.version === undefined) || (result.version !== doc.version)) {
         doc._rev = result._rev
-        return this.db.put(doc)
+        return this._db.put(doc)
       }
       return true
     }).catch((err) => {
       if (err.status == 404) {
-        return this.db.put(doc)
+        return this._db.put(doc)
       } else {
         throw err
       }
@@ -73,7 +73,7 @@ class DocumentDatabase {
    * @returns {Promise}
    */
   get (id:string) : Promise {
-    return this.db.get(id)
+    return this._db.get(id)
   }
 
   /**
@@ -84,7 +84,7 @@ class DocumentDatabase {
    * @returns {Promise}
    */
   query(view:string, options:Object) : Promise {
-    return this.db.query(view, options)
+    return this._db.query(view, options)
   }
 }
 

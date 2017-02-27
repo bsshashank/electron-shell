@@ -13,17 +13,6 @@ import { winButtonStyle, winIconStyle,
  */
 class CloseButton extends React.Component {
 
-
-  /**
-   * Creates an instance of CloseButton.
-   *
-   * @param {any} props
-   */
-  constructor (props) {
-    super(props)
-  }
-
-
   /**
    *  renders the OS-specific Close button based on the given platform
    *

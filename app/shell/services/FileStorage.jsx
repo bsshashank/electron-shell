@@ -25,7 +25,7 @@ class FileStorage {
     return this._dataFolder
   }
 
-  get tempFolder(): string {
+  get tempFolder(): string {        
     return this._tempFolder
   }
 }

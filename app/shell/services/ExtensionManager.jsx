@@ -12,17 +12,17 @@ import uri from 'url'
  */
 class ExtensionManager {
 
-  extensionFolder: string
-  fileStorage: Object
+  _extensionFolder: string
+  _fileStorage: Object
 
   constructor(appConfig:Object, fileStorage:Object) {
-    this.fileStorage = fileStorage
-    this.extensionFolder = path.join(this.fileStorage.baseFolder, 'Plugins')
-    if(!fs.existsSync(this.extensionFolder)) {
-      fs.mkdirSync(this.extensionFolder)
+    this._fileStorage = fileStorage
+    this._extensionFolder = path.join(this._fileStorage.baseFolder, 'Plugins')
+    if(!fs.existsSync(this._extensionFolder)) {
+      fs.mkdirSync(this._extensionFolder)
     }
     const baseDependencies = path.join(appConfig.paths.appPath, 'node_modules')
-    const symlink = path.join(this.fileStorage.baseFolder, 'node_modules')
+    const symlink = path.join(this._fileStorage.baseFolder, 'node_modules')
     if (!fs.existsSync(symlink) && (fs.existsSync(baseDependencies))) {
       fs.symlinkSync(baseDependencies, symlink, 'junction')
     }
@@ -33,11 +33,11 @@ class ExtensionManager {
     process.noAsar = false
 
     try {
-      const extension = require(path.join(this.extensionFolder, extensionName))
-      const extensionMeta = require(path.join(this.extensionFolder, extensionName, '/package.json'))
+      const extension = require(path.join(this._extensionFolder, extensionName))
+      const extensionMeta = require(path.join(this._extensionFolder, extensionName, '/package.json'))
       extensionInfo = {
         component: extension.default,
-        root: uri.parse(this.extensionFolder),
+        root: uri.parse(this._extensionFolder),
         location: extensionName,
         module: extensionMeta,
         path: extensionMeta.config.path
