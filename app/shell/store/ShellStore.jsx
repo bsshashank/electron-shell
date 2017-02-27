@@ -11,8 +11,7 @@ export default Store({
 
   initialize () {
     this.on(ActionTypes.MOUNT_AVAILABLE_EXTENSIONS, (state, payload) => {
-      console.log(state, payload)
-      return state.merge(toImmutable(payload.extensions).toMap())
+      return state.merge({ extensions: toImmutable(payload.extensions).toMap() })
     })
     this.on(ActionTypes.ACTIVATE_EXTENSION, (state, payload) => {
       console.log(state, payload)
