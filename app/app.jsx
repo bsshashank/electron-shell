@@ -6,8 +6,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
-import { Provider } from 'nuclear-js-react-addons'
-
 import reactor from './shell/Reactor'
 import Shell from './shell/Shell'
 
@@ -17,8 +15,12 @@ import Shell from './shell/Shell'
 // https://github.com/zilverline/react-tap-event-plugin
 injectTapEventPlugin()
 
+const app = electron.remote.app
+
 ReactDOM.render(
-  <Provider reactor={reactor}>
-    <Shell />
-  </Provider>, document.querySelector('div[role=app]')
-)
+  <Shell config={app.sysConfig()}
+         reactor={reactor}
+         closeHandler={app.close}
+         fullScreenHandler={app.toggleFullscreen}
+         minimizeHandler={app.minimizeAppToSysTray} />,
+  document.querySelector('div[role=app]'))

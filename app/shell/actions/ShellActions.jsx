@@ -1,6 +1,9 @@
 // @flow
 
+import uri from 'url'
+
 import ActionTypes from './ShellActionTypes'
+import SettingsManager from '../components/SettingsManager'
 
 class ShellActions {
 
@@ -15,7 +18,23 @@ class ShellActions {
   }
 
   mountAvailableExtensions () {
-    let extensions = []
+    let extensions = [{
+      path: 'settings',
+      component: SettingsManager,
+      root: uri.parse(__dirname),
+      location: '../../..',
+      module: {
+        name: 'Settings',
+        description: 'Maintain application settings',
+        config: {
+          label: 'Settings',
+          icon: 'settings',
+          banner: 'assets/settings.png',
+          removable: false
+        }
+      }
+    }]
+
     // blah blah folder lookup
     // blah blah loading asar files via ExtensionManager
     this._reactor.dispatch(ActionTypes.MOUNT_AVAILABLE_EXTENSIONS, { extensions: extensions })
