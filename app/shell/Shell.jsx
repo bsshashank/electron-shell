@@ -5,6 +5,7 @@ import Radium from 'radium'
 import { Icon, Tooltip } from 'react-mdl'
 import { Link } from 'react-router'
 import { connect } from 'nuclear-js-react-addons'
+import { toImmutable } from 'nuclear-js'
 
 import DocumentDatabase from './services/DocumentDatabase'
 import FileStorage from './services/FileStorage'
@@ -29,13 +30,12 @@ const appCfg = app.sysConfig()
  */
 class Shell extends React.Component {
 
-  title: string
-  sqlDB: SqlDatabase
-  docDB: DocumentDatabase
-  graphDB: TripleStore
-  fileStore: FileStorage
-  extensionManager: ExtensionManager
-  shellActions: ShellActions
+  _sqlDB: SqlDatabase
+  _docDB: DocumentDatabase
+  _graphDB: TripleStore
+  _fileStore: FileStorage
+  _extensionManager: ExtensionManager
+  _shellActions: ShellActions
 
   /**
    * Creates an instance of Shell.
@@ -43,21 +43,26 @@ class Shell extends React.Component {
    */
   constructor (props) {
     super(props)
-    this.title = `${appCfg.app.name} ${appCfg.app.version}`
-    this.sqlDB = new SqlDatabase(appCfg.app.name)
-    this.docDB = new DocumentDatabase(appCfg.app.name)
-    this.graphDB = new TripleStore(appCfg.app.name)
-    this.fileStore = new FileStorage(appCfg)
+    this._sqlDB = new SqlDatabase(appCfg.app.name)
+    this._docDB = new DocumentDatabase(appCfg.app.name)
+    this._graphDB = new TripleStore(appCfg.app.name)
+    this._fileStore = new FileStorage(appCfg)
 
-    this.extensionManager = new ExtensionManager(appCfg, this.fileStore)
+    this._extensionManager = new ExtensionManager(appCfg, this._fileStore)
+
+    this.state = {
+      locale: appCfg.defaultLocale,
+      title: `${appCfg.app.name} ${appCfg.app.version}`,
+      activeModule: appCfg.app.name
+    }
 
     this.props.reactor.registerStores({
-      'shell': ShellStore
+      'app': ShellStore
     });
 
     // mount all available extensions
-    this.shellActions = new ShellActions(this.props.reactor, this.docDB, this.extensionManager)
-    this.shellActions.mountAvailableExtensions()
+    this._shellActions = new ShellActions(this.props.reactor, this._docDB, this._extensionManager)
+    this._shellActions.mountAvailableExtensions()
   }
 
   /**
@@ -68,10 +73,10 @@ class Shell extends React.Component {
   getChildContext() {
     return {
       appConfig: appCfg,
-      documentDatabase: this.docDB,
-      graphDatabase: this.graphDB,
-      sqlDatabase: this.sqlDB,
-      extensionManager: this.extensionManager
+      documentDatabase: this._docDB,
+      graphDatabase: this._graphDB,
+      sqlDatabase: this._sqlDB,
+      extensionManager: this._extensionManager
     }
   }
 
@@ -89,7 +94,7 @@ class Shell extends React.Component {
    *
    * @return {type}  description
    */
-  toggleFullScreen () {    
+  toggleFullScreen () {
     app.toggleFullscreen()
   }
 
@@ -99,7 +104,7 @@ class Shell extends React.Component {
    * @return {type}  description
    */
   closeApp () {
-    this.docDB.save({ event: 'closed' }).then(() => {
+    this._docDB.save({ event: 'closed' }).then(() => {
       app.close()
     })
   }
@@ -110,21 +115,19 @@ class Shell extends React.Component {
    * @return {type}  description
    */
   render () {
-
     let modules = []
-    let activeModule = appCfg.app.name
 
-    /*this.props.plugins.toArray().map((r) => {
-      const plugin = r.toJS()
-      modules.push(<Link to={plugin.path} key={plugin.path}>
-                      <Icon name={plugin.module.config.icon} style={{ paddingRight: '10px' }} />
-                      {plugin.module.config.label}
+    this.props.app.extensions.toArray().map((item) => {
+      const extension = item.toJS()
+      modules.push(<Link to={extension.path} key={extension.path}>
+                      <Icon name={extension.module.config.icon} style={{ paddingRight: '10px' }} />
+                      {extension.module.config.label}
                     </Link>)
-    })*/
+    })
 
     return (
-      <Window appName={this.title}
-        activeModule={activeModule}
+      <Window appName={this.state.title}
+        activeModule={this.state.activeModule}
         modules={modules}
         platform={appCfg.platform}
         closeHandler={this.closeApp.bind(this)}
@@ -148,9 +151,15 @@ Shell.propTypes = {
   reactor: React.PropTypes.object.isRequired
 }
 
+Shell.defaultProps = {
+  app: {
+    extensions: toImmutable([])
+  }
+}
+
 function dataBinding(props) {
   return {
-    shell: ['shell']
+    app: ['app']
   }
 }
 
