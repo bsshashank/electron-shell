@@ -1,8 +1,7 @@
 // @flow
-import electron from 'electron'
 import React from 'react'
 import Radium from 'radium'
-import ConnectedReactComponent from './components/ConnectedReactComponent'
+import { UI } from 'electron-shell-helper'
 
 import { Link } from 'react-router'
 import { toImmutable } from 'nuclear-js'
@@ -42,7 +41,7 @@ const WindowStyle = {
  * @class Shell
  * @extends {React.Component}
  */
-class Shell extends ConnectedReactComponent {
+class Shell extends UI.ConnectedReactComponent {
 
   _appCfg: Object
   _sqlDB: SqlDatabase
