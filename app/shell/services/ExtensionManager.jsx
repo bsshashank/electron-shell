@@ -3,6 +3,7 @@
 import path from 'path'
 import fs from 'fs'
 import uri from 'url'
+import { toImmutable } from 'nuclear-js'
 
 /**
  * Provides access to and manages extensions registered
@@ -14,9 +15,11 @@ class ExtensionManager {
 
   _extensionFolder: string
   _fileStorage: Object
+  _activeExtensions: Array
 
   constructor(appConfig:Object, fileStorage:Object) {
     this._fileStorage = fileStorage
+    this._activeExtensions = []
     this._extensionFolder = path.join(this._fileStorage.baseFolder, 'Plugins')
     if(!fs.existsSync(this._extensionFolder)) {
       fs.mkdirSync(this._extensionFolder)
@@ -28,7 +31,7 @@ class ExtensionManager {
     }
   }
 
-  tryLoadExtension(extensionName: string): any {
+  _tryLoadExtension(extensionName: string): any {
     let extensionInfo: any = null
     process.noAsar = false
 
@@ -50,6 +53,17 @@ class ExtensionManager {
     return extensionInfo
   }
 
+  activateExtension(extensionName: string): bool {
+    let extensionInfo = this._tryLoadExtension(extensionName)
+    if (extensionInfo)
+      this._activeExtensions.push(extensionInfo)
+    return (extensionInfo !== null)
+  }
+
+  deactivateExtension(extensionName: string) {
+
+  }
+
   installExtension(from: string) {
     if (fs.lstatSync(from).isDirectory()) {
       console.log('Handling of unpacked plugin...')
@@ -62,6 +76,10 @@ class ExtensionManager {
 
   uninstallExtension(extensionName: string) {
 
+  }
+
+  get extensions() {
+    return toImmutable(this._activeExtensions)
   }
 }
 

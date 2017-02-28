@@ -20,20 +20,8 @@ import ShellStore from './store/ShellStore'
 
 import { Router, hashHistory } from 'react-router'
 
-import AppTitle from './components/AppTitle'
-import DragHandler from './components/DragHandler'
-import MinimizeButton from './components/MinimizeButton'
-import MaximizeButton from './components/MaximizeButton'
-import CloseButton from './components/CloseButton'
-
-const WindowStyle = {
-  padding: 0,
-  margin: 0,
-  height: '100%',
-  width: '100%',
-  overflow: 'hidden',
-  WebkitUserSelect: 'none'
-}
+import TitleBar from './components/TitleBar'
+import { WindowStyle } from './components/ControlStyles'
 
 /**
  *
@@ -147,38 +135,16 @@ class Shell extends UI.ConnectedReactComponent {
       this.state.extensions.toArray().map((item) => {
         const extension = item.toJS()
         console.log(extension)
-        //this._extensionManager.tryLoadExtension(extension.root)
+        this._extensionManager.activateExtension(extension.location)
       })
     }
 
-    var headerComponents = {}
-
-    if (this._appCfg.platform !== 'darwin') {
-      headerComponents = (
-        <div style={{height: '24px', flex: 1, alignContent: 'flex-end', alignItems: 'flex-end', justifyContent: 'flex-end', display: 'flex', padding: '2px', backgroundColor: '#f2f2f2'}}>
-          <AppTitle title={this.state.title} />
-          <DragHandler key='left' />
-          <MinimizeButton platform={this._appCfg.platform} clickHandler={this.minimizeApp.bind(this)} />
-          <MaximizeButton platform={this._appCfg.platform} clickHandler={this.toggleFullScreen.bind(this)} />
-          <CloseButton platform={this._appCfg.platform} clickHandler={this.closeApp.bind(this)} />
-        </div>
-      )
-    } else {
-      headerComponents = (
-        <div style={{height: '24px', flex: 1, alignContent: 'flex-start', alignItems: 'flex-start', justifyContent: 'flex-start', display: 'flex', padding: '2px', backgroundColor: '#f2f2f2'}}>
-          <CloseButton platform={this._appCfg.platform} clickHandler={this.closeApp.bind(this)} />
-          <MinimizeButton platform={this._appCfg.platform} clickHandler={this.minimizeApp.bind(this)} />
-          <MaximizeButton platform={this._appCfg.platform} clickHandler={this.toggleFullScreen.bind(this)} />
-          <DragHandler key='left' />
-          <AppTitle title={this.state.title} />
-          <DragHandler key='right' />
-        </div>
-      )
-    }
 
     return (
       <div style={[WindowStyle]}>
-        {headerComponents}
+        <TitleBar platform={this._appCfg.platform} title={this.state.title}
+                  closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
+                  minimizeHandler={this.minimizeApp.bind(this)} />
         <Router history={hashHistory} routes={this._routeHandler.routes}></Router>
       </div>
     )

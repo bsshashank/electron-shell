@@ -1,9 +1,7 @@
 // @flow
 
 import uri from 'url'
-
 import ActionTypes from './ShellActionTypes'
-import SettingsManager from '../components/SettingsManager'
 
 class ShellActions {
 
@@ -20,9 +18,8 @@ class ShellActions {
   mountAvailableExtensions () {
     let extensions = [{
       path: 'settings',
-      component: SettingsManager,
       root: uri.parse(__dirname),
-      location: '../../..',
+      location: '#SettingsManager',
       module: {
         name: 'Settings',
         description: 'Maintain application settings',
@@ -35,8 +32,6 @@ class ShellActions {
       }
     }]
 
-    // blah blah folder lookup
-    // blah blah loading asar files via ExtensionManager
     this._reactor.dispatch(ActionTypes.MOUNT_AVAILABLE_EXTENSIONS, { extensions: extensions })
   }
 
