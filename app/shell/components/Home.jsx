@@ -19,6 +19,10 @@ class Home extends React.Component {
     }
   }
 
+  handleTogglePane () {
+    this.setState({ paneOpened: !this.state.paneOpened })
+  }
+
   render () {
     let extensions = []
 
@@ -30,23 +34,26 @@ class Home extends React.Component {
     ) */
     var splitViewId = "mySplitView";
 
-    let sidebarContent = (<div>
-    <SplitViewPaneToggle
-      aria-controls={splitViewId}
-      paneOpened={this.state.paneOpened} />
+    let sidebarContent = (
+        <div><SplitViewPaneToggle
+          aria-controls={splitViewId}
+          paneOpened={this.state.paneOpened}
+          onInvoked={this.handleTogglePane.bind(this)} />
+            <SplitView.Command
+              label="Home"
+              icon="home" />
+            <SplitView.Command
+              label="Settings"
+              icon="settings" />
+        </div>)
 
-    <SplitView.Command
-      label="Home"
-      icon="home" />
-    <SplitView.Command
-      label="Settings"
-      icon="settings" />
-      </div>)
+    let content = (
+      <div>{this.props.children}</div>
+    )
 
     return (
       <SplitView id={splitViewId} paneComponent={sidebarContent}
-                 contentComponent={this.props.children} paneOpened={this.state.paneOpened}>
-      </SplitView>
+                 contentComponent={content} paneOpened={this.state.paneOpened} />
     )
   }
 }
