@@ -3,6 +3,7 @@ html, body, div[role='app'] {
   margin: 0;
   height: 100%;
   width: 100%;
+  font-family: 'Segoe UI';
   overflow: hidden;
   -webkit-user-select: none;
   -moz-user-select: none;

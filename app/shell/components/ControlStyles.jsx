@@ -1,4 +1,20 @@
 // @flow
+
+export const appTitleStyle = {
+  WebkitUserSelect: 'none',
+  cursor: 'default',
+  fontFamily: 'Segoe UI',
+  fontSize: '12px',
+  paddingLeft: '10px',
+  paddingBottom: '5px'
+}
+
+export const dragStyle = {
+  WebkitAppRegion: 'drag',
+  height: '100%',
+  flex: 1
+}
+
 export const winIconStyle = {
   width: '10px',
   height: '10px',

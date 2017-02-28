@@ -2,14 +2,7 @@
 import React from 'react'
 import Radium from 'radium'
 
-const appTitleStyle = {
-  WebkitUserSelect: 'none',
-  cursor: 'default',
-  fontFamily: 'Segoe UI',
-  fontSize: '12px',
-  paddingLeft: '10px',
-  paddingBottom: '5px'
-}
+import { appTitleStyle } from './ControlStyles'
 
 /**
  *  A React component to render application titles

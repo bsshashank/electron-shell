@@ -2,11 +2,7 @@
 import React from 'react'
 import Radium from 'radium'
 
-const dragStyle = {
-  WebkitAppRegion: 'drag',
-  height: '100%',
-  flex: 1
-}
+import { dragStyle } from './ControlStyles'
 
 /**
  *
