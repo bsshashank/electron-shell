@@ -1,5 +1,7 @@
 // @flow
 
+import SettingsManager from '../components/SettingsManager'
+
 /**
  * Manages and maintains all routes internal to the
  * application. Allows extensions to register new routes on their behalf.
@@ -18,7 +20,10 @@ class RouteHandler {
     this._routes = {
       path: '/',
       component: homeComponent,
-      childRoutes: []
+      childRoutes: [{
+        path: 'settings',
+        component: SettingsManager
+      }]
     }
   }
 

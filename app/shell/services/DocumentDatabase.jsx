@@ -36,10 +36,10 @@ class DocumentDatabase {
   /**
    *
    *
-   * @param {JSON} doc
+   * @param {Object} doc
    * @returns {Promise}
    */
-  save (doc:JSON) : Promise {
+  save (doc:Object) : Promise<Object> {
 
     if (!doc._id) {
       doc._id = uuid.v4()
@@ -72,7 +72,7 @@ class DocumentDatabase {
    * @param {string} id
    * @returns {Promise}
    */
-  get (id:string) : Promise {
+  get (id:string) : Promise<Object> {
     return this._db.get(id)
   }
 
@@ -83,7 +83,7 @@ class DocumentDatabase {
    * @param {Object} options
    * @returns {Promise}
    */
-  query(view:string, options:Object) : Promise {
+  query(view:string, options:Object) : Promise<Object> {
     return this._db.query(view, options)
   }
 }

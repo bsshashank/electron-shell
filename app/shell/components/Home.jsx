@@ -23,6 +23,10 @@ class Home extends React.Component {
     this.setState({ paneOpened: !this.state.paneOpened })
   }
 
+  navigateTo (route:string) {
+    this.props.router.push(route)
+  }
+
   render () {
     let extensions = []
 
@@ -41,14 +45,19 @@ class Home extends React.Component {
           onInvoked={this.handleTogglePane.bind(this)} />
             <SplitView.Command
               label="Home"
-              icon="home" />
+              icon="home"
+              onInvoked={this.navigateTo.bind(this, '/')}/>
             <SplitView.Command
               label="Settings"
-              icon="settings" />
+              icon="settings"
+              onInvoked={this.navigateTo.bind(this, 'settings')}/>
         </div>)
 
     let content = (
-      <div>{this.props.children}</div>
+      <div>
+        <h2>Home</h2>
+        {this.props.children}
+      </div>
     )
 
     return (
