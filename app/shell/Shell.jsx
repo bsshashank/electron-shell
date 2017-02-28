@@ -14,7 +14,6 @@ import TripleStore from './services/TripleStore'
 import ExtensionManager from './services/ExtensionManager'
 import RouteHandler from './services/RouteHandler'
 
-import Home from './components/Home'
 import ShellActions from './actions/ShellActions'
 import ShellStore from './store/ShellStore'
 
@@ -54,7 +53,7 @@ class Shell extends UI.ConnectedReactComponent {
     this._fileStore = new FileStorage(this._appCfg)
 
     this._extensionManager = new ExtensionManager(this._appCfg, this._fileStore)
-    this._routeHandler = new RouteHandler(this._appCfg, this._extensionManager, Home)
+    this._routeHandler = new RouteHandler(this._appCfg, this._extensionManager)
 
     this.state = {
       locale: this._appCfg.defaultLocale,

@@ -1,5 +1,7 @@
 // @flow
 
+import MainLayout from '../components/MainLayout'
+import Home from '../components/Home'
 import SettingsManager from '../components/SettingsManager'
 
 /**
@@ -14,12 +16,13 @@ class RouteHandler {
   _extensionManager: Object
   _routes: Map
 
-  constructor (appConfig, extensionManager, homeComponent) {
+  constructor (appConfig, extensionManager) {
     this._appConfig = appConfig
     this._extensionManager = extensionManager
     this._routes = {
       path: '/',
-      component: homeComponent,
+      component: MainLayout,
+      indexRoute: { component: Home },
       childRoutes: [{
         path: 'settings',
         component: SettingsManager

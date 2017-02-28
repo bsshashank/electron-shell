@@ -12,7 +12,7 @@ class SettingsManager extends UI.ConnectedReactComponent {
 
   render () {
     return (
-      <div>Settings Manager</div>
+      <h2>Settings Manager</h2>
     )
   }
 }
