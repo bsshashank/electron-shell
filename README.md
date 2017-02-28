@@ -1,5 +1,5 @@
-# electron-boilerplate
-An electron boilerplate project incl. PouchDB, React + NuclearJS, React-MDL UI library based on Google Material-Lite
+# electron-shell
+An electron shell project incl. PouchDB, React + NuclearJS, Metro UI library, ...
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 
@@ -8,7 +8,7 @@ An electron boilerplate project incl. PouchDB, React + NuclearJS, React-MDL UI l
 * [ReactJS](http://facebook.github.io/react/)
 * [React-Router](https://github.com/reactjs/react-router)
 * [NuclearJS](https://optimizely.github.io/nuclear-js/) (ImmutableJS and Flux-based architecture)
-* [React-MDL](https://tleunen.github.io/react-mdl/)
+* [Metro UI](https://developer.microsoft.com/en-us/windows/develop/winjs)
 * [PouchDB](https://pouchdb.com/) + Plugins (MongoDB-style query language and full-text search engine support)
 * [Lovefield](https://google.github.io/lovefield/)
 * [rdfstore-js](http://antoniogarrote.github.io/rdfstore-js/)
@@ -19,7 +19,7 @@ An electron boilerplate project incl. PouchDB, React + NuclearJS, React-MDL UI l
 * install Python 2.7 from [here](http://www.python.org) and add the installation directory to your system path variable
 * For Windows, install Windows SDK for Windows Server 2008 and .NET Framework 3.5 from [here](http://www.microsoft.com/en-us/download/details.aspx?id=11310)
 * For Windows, install Visual Studio 2013/2015 (Express for Desktop is sufficient).
-* clone git repository (```git clone -b reactjs https://github.com/appelgriebsch/electron-boilerplate.git ./myproject```)
+* clone git repository (```git clone https://github.com/appelgriebsch/electron-shell.git ./myproject```)
 * open terminal and run ```npm install``` to install dependencies
 * start application in debug by executing ```npm start``` in terminal
 
