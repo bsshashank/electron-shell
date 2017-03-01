@@ -81,9 +81,7 @@ class Shell extends UI.ConnectedReactComponent {
       reactor: this._reactor,
       documentDatabase: this._docDB,
       graphDatabase: this._graphDB,
-      sqlDatabase: this._sqlDB,
-      extensionManager: this._extensionManager,
-      routeHandler: this._routeHandler
+      sqlDatabase: this._sqlDB
     }
   }
 
@@ -155,9 +153,7 @@ Shell.childContextTypes = {
   reactor: React.PropTypes.object.isRequired,
   documentDatabase: React.PropTypes.object.isRequired,
   graphDatabase: React.PropTypes.object.isRequired,
-  sqlDatabase: React.PropTypes.object.isRequired,
-  extensionManager: React.PropTypes.object.isRequired,
-  routeHandler: React.PropTypes.object.isRequired
+  sqlDatabase: React.PropTypes.object.isRequired
 }
 
 Shell.propTypes = {

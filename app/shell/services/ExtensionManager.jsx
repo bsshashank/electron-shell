@@ -70,7 +70,6 @@ class ExtensionManager {
     }
     else {
       console.log('About to install plugin from ', from)
-
     }
   }
 

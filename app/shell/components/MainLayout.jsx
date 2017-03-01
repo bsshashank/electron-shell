@@ -6,13 +6,12 @@ import Radium from 'radium'
 import { Link } from 'react-router'
 import { SplitView, SplitViewPaneToggle } from 'react-winjs'
 
-class MainLayout extends React.Component {
+import { UI } from 'electron-shell-helper'
 
-  _extensionManager: Object
+class MainLayout extends UI.ConnectedReactComponent {
 
   constructor (props, context) {
     super (props, context)
-    this._extensionManager = context.extensionManager
 
     this.state = {
       paneOpened: false
@@ -27,8 +26,14 @@ class MainLayout extends React.Component {
     this.props.router.push(route)
   }
 
+  getConnectedProperties () {
+    return {
+      extensions: ['app', 'routes']
+    }
+  }
+
   render () {
-    let extensions = []
+    let routes = []
 
     /* extensions.push(
       <Link to={extension.path} key={extension.path}>
@@ -61,13 +66,10 @@ class MainLayout extends React.Component {
 
     return (
       <SplitView id={splitViewId} paneComponent={sidebarContent}
-                 contentComponent={content} paneOpened={this.state.paneOpened} />
+                 contentComponent={content} paneOpened={this.state.paneOpened}
+                 closedDisplayMode="inline" openedDisplayMode="overlay"/>
     )
   }
-}
-
-MainLayout.contextTypes = {
-  extensionManager: React.PropTypes.object.isRequired
 }
 
 export default Radium(MainLayout)
