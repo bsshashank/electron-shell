@@ -94,10 +94,10 @@
     "docdash": "^0.4.0",
     "electron-builder": "^14.1.1",
     "electron-packager": "^8.5.2",
-    "electron": "^1.4.15",
+    "electron": "^1.6.0",
     "jsdoc": "^3.4.3",
     "jsdoc-babel": "^0.3.0",
     "spectron": "^3.6.0",
-    "standard": "^8.6.0"
+    "standard": "^9.0.0"
   }
 }
