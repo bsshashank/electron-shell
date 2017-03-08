@@ -17,23 +17,21 @@ import { Router, hashHistory } from 'react-router'
 import TitleBar from './components/TitleBar'
 import { WindowStyle } from './components/ControlStyles'
 
-import type { ApplicationConfig } from 'electron-shell'
+import Reflux from 'reflux'
+import ShellActions from './ShellActions'
+import ShellStore from './ShellStore'
 
-/**
- *
- *
- * @class Shell
- * @extends {React.Component}
- */
-class Shell extends React.Component<Object, Object> {
+import type { ApplicationConfig, ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage, IExtensionManager, IRouteHandler } from 'electron-shell'
+
+class Shell extends Reflux.Component {
 
   _appCfg: ApplicationConfig
-  _sqlDB: SqlDatabase
-  _docDB: DocumentDatabase
-  _graphDB: TripleStore
-  _fileStore: FileStorage
-  _extensionManager: ExtensionManager
-  _routeHandler: RouteHandler
+  _sqlDB: ISqlDatabase
+  _docDB: IDocumentDatabase
+  _graphDB: ITripleStore
+  _fileStore: IFileStorage
+  _extensionManager: IExtensionManager
+  _routeHandler: IRouteHandler
 
   /**
    * Creates an instance of Shell.
@@ -51,11 +49,14 @@ class Shell extends React.Component<Object, Object> {
     this._extensionManager = new ExtensionManager(this._appCfg, this._fileStore)
     this._routeHandler = new RouteHandler(this._appCfg, this._extensionManager)
 
-    this.state = {
-      locale: this._appCfg.defaultLocale,
-      title: `${this._appCfg.app.name} ${this._appCfg.app.version}`,
-      activeModule: this._appCfg.app.name
-    }    
+    this.store = new ShellStore(this._appCfg, this._docDB)
+    this.store.initialize()
+    .then(() => {
+      ShellActions.mountActiveExtensions()
+    })
+    .catch((error) => {
+      
+    })
   }
 
   /**

@@ -1,6 +1,6 @@
-declare module 'electron-shell' {
+ declare module 'electron-shell' {
 
-  export type ApplicationConfig = {
+  declare type ApplicationConfig = {
     app: {
       name: string,
       version: string
@@ -17,7 +17,29 @@ declare module 'electron-shell' {
     }
   }
 
-  export interface DocumentDatabase {
-    
+  declare interface IDocumentDatabase {
+    save: (doc:Object) => Promise<Object>;
+    get: (id:string) => Promise<Object>;
+    query: (view:string, options:Object) => Promise<Object>;
+  }
+
+  declare interface ISqlDatabase {
+
+  }
+
+  declare interface ITripleStore {
+
+  }
+
+  declare interface IFileStorage {
+
+  }
+
+  declare interface IExtensionManager {
+
+  }
+
+  declare interface IRouteHandler {
+    routes: () => any
   }
 }
