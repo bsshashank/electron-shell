@@ -3,7 +3,6 @@
 import path from 'path'
 import fs from 'fs'
 import uri from 'url'
-import { toImmutable } from 'nuclear-js'
 
 /**
  * Provides access to and manages extensions registered
@@ -78,7 +77,7 @@ class ExtensionManager {
   }
 
   get extensions() {
-    return toImmutable(this._activeExtensions)
+    return this._activeExtensions
   }
 }
 

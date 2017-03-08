@@ -6,13 +6,10 @@ import Radium from 'radium'
 import { Link } from 'react-router'
 import { SplitView, SplitViewPaneToggle } from 'react-winjs'
 
-import { UI } from 'electron-shell-helper'
-
-class MainLayout extends UI.ConnectedReactComponent {
+class MainLayout extends React.Component {
 
   constructor (props, context) {
     super (props, context)
-
     this.state = {
       paneOpened: false
     }

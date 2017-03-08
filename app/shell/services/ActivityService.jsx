@@ -1,5 +1,7 @@
 // @flow
 
+import type { ApplicationConfig, DocumentDatabase } from 'electron-shell'
+
 /**
  * Provides access to and manages activities done in the application
  * by the user or any system agent (aka log/trace)
@@ -8,10 +10,10 @@
  */
 class ActivityService {
 
-  _appCfg: Object
-  _docDatabase: Object
+  _appCfg: ApplicationConfig
+  _docDatabase: DocumentDatabase
 
-  constructor (appConfig, documentDatabase) {
+  constructor (appConfig: ApplicationConfig, documentDatabase: DocumentDatabase) {
     this._appCfg = appConfig
     this._docDatabase = documentDatabase
   }
@@ -25,7 +27,7 @@ class ActivityService {
   }
 
   writeLogEntry (severity, extName:string, funcName:string, message:string) {
-    
+
   }
 }
 

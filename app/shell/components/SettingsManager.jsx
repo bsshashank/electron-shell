@@ -2,9 +2,7 @@
 import React from 'react'
 import Radium from 'radium'
 
-import { UI } from 'electron-shell-helper'
-
-class SettingsManager extends UI.ConnectedReactComponent {
+class SettingsManager extends React.Component {
 
   constructor (props, context) {
     super (props, context)

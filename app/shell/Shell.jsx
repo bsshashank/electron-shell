@@ -1,10 +1,8 @@
 // @flow
 import React from 'react'
 import Radium from 'radium'
-import { UI } from 'electron-shell-helper'
 
 import { Link } from 'react-router'
-import { toImmutable } from 'nuclear-js'
 
 import DocumentDatabase from './services/DocumentDatabase'
 import FileStorage from './services/FileStorage'
@@ -14,13 +12,12 @@ import TripleStore from './services/TripleStore'
 import ExtensionManager from './services/ExtensionManager'
 import RouteHandler from './services/RouteHandler'
 
-import ShellActions from './actions/ShellActions'
-import ShellStore from './store/ShellStore'
-
 import { Router, hashHistory } from 'react-router'
 
 import TitleBar from './components/TitleBar'
 import { WindowStyle } from './components/ControlStyles'
+
+import type { ApplicationConfig } from 'electron-shell'
 
 /**
  *
@@ -28,16 +25,15 @@ import { WindowStyle } from './components/ControlStyles'
  * @class Shell
  * @extends {React.Component}
  */
-class Shell extends UI.ConnectedReactComponent {
+class Shell extends React.Component<Object, Object> {
 
-  _appCfg: Object
+  _appCfg: ApplicationConfig
   _sqlDB: SqlDatabase
   _docDB: DocumentDatabase
   _graphDB: TripleStore
   _fileStore: FileStorage
   _extensionManager: ExtensionManager
   _routeHandler: RouteHandler
-  _shellActions: ShellActions
 
   /**
    * Creates an instance of Shell.
@@ -59,15 +55,7 @@ class Shell extends UI.ConnectedReactComponent {
       locale: this._appCfg.defaultLocale,
       title: `${this._appCfg.app.name} ${this._appCfg.app.version}`,
       activeModule: this._appCfg.app.name
-    }
-
-    this._reactor.registerStores({
-      'app': ShellStore
-    })
-
-    // mount all available extensions
-    this._shellActions = new ShellActions(this._reactor, this._docDB, this._extensionManager)
-    this._shellActions.mountAvailableExtensions()
+    }    
   }
 
   /**
@@ -78,16 +66,9 @@ class Shell extends UI.ConnectedReactComponent {
   getChildContext() {
     return {
       appConfig: this._appCfg,
-      reactor: this._reactor,
       documentDatabase: this._docDB,
       graphDatabase: this._graphDB,
       sqlDatabase: this._sqlDB
-    }
-  }
-
-  getConnectedProperties () {
-    return {
-      extensions: ['app', 'extensions']
     }
   }
 
@@ -128,15 +109,6 @@ class Shell extends UI.ConnectedReactComponent {
   render () {
     let modules = []
 
-    if (this.state.extensions) {
-      this.state.extensions.toArray().map((item) => {
-        const extension = item.toJS()
-        console.log(extension)
-        this._extensionManager.activateExtension(extension.location)
-      })
-    }
-
-
     return (
       <div style={[WindowStyle]}>
         <TitleBar platform={this._appCfg.platform} title={this.state.title}
@@ -150,7 +122,6 @@ class Shell extends UI.ConnectedReactComponent {
 
 Shell.childContextTypes = {
   appConfig: React.PropTypes.object.isRequired,
-  reactor: React.PropTypes.object.isRequired,
   documentDatabase: React.PropTypes.object.isRequired,
   graphDatabase: React.PropTypes.object.isRequired,
   sqlDatabase: React.PropTypes.object.isRequired
@@ -158,7 +129,6 @@ Shell.childContextTypes = {
 
 Shell.propTypes = {
   config: React.PropTypes.object.isRequired,
-  reactor: React.PropTypes.object.isRequired,
   closeHandler: React.PropTypes.func.isRequired,
   fullScreenHandler: React.PropTypes.func.isRequired,
   minimizeHandler: React.PropTypes.func.isRequired

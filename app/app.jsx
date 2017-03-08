@@ -1,12 +1,10 @@
 // @flow
-
 import electron from 'electron'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
-import reactor from './shell/Reactor'
 import Shell from './shell/Shell'
 
 // Needed for onTouchTap
@@ -19,7 +17,6 @@ const app = electron.remote.app
 
 ReactDOM.render(
   <Shell config={app.sysConfig()}
-         reactor={reactor}
          closeHandler={app.close}
          fullScreenHandler={app.toggleFullscreen}
          minimizeHandler={app.minimizeAppToSysTray} />,

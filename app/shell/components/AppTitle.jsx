@@ -4,24 +4,10 @@ import Radium from 'radium'
 
 import { appTitleStyle } from './ControlStyles'
 
-/**
- *  A React component to render application titles
- *
- * @class AppTitle
- * @extends {React.Component}
- */
-class AppTitle extends React.Component {
-
-  /**
-   *  renders the application title
-   *
-   * @returns a span with the application title
-   */
-  render () {
-    return (
-      <span style={[appTitleStyle]}>{this.props.title}</span>
-    )
-  }
+const AppTitle = (props) => {
+  return (
+    <span style={[appTitleStyle]}>{props.title}</span>
+  )
 }
 
 AppTitle.propTypes = {

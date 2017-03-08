@@ -2,7 +2,6 @@
 
 import path from 'path'
 import fs from 'fs'
-import asar from 'asar'
 import ncp from 'ncp'
 
 /**
@@ -25,7 +24,7 @@ class FileStorage {
     return this._dataFolder
   }
 
-  get tempFolder(): string {        
+  get tempFolder(): string {
     return this._tempFolder
   }
 }

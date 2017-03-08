@@ -1,0 +1,23 @@
+declare module 'electron-shell' {
+
+  export type ApplicationConfig = {
+    app: {
+      name: string,
+      version: string
+    },
+    host: string,
+    platform: string,
+    defaultLocale: string,
+    user: string,
+    paths: {
+      appPath: string,
+      home: string,
+      temp: string,
+      data: string
+    }
+  }
+
+  export interface DocumentDatabase {
+    
+  }
+}
