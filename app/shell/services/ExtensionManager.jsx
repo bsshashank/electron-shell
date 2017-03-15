@@ -12,19 +12,19 @@ import uri from 'url'
  */
 class ExtensionManager {
 
-  _extensionFolder: string
-  _fileStorage: Object
-  _activeExtensions: Array
+  extensionFolder: string
+  fileStorage: Object
+  activeExtensions: Array
 
   constructor(appConfig:Object, fileStorage:Object) {
-    this._fileStorage = fileStorage
-    this._activeExtensions = []
-    this._extensionFolder = path.join(this._fileStorage.baseFolder, 'Plugins')
-    if(!fs.existsSync(this._extensionFolder)) {
-      fs.mkdirSync(this._extensionFolder)
+    this.fileStorage = fileStorage
+    this.activeExtensions = []
+    this.extensionFolder = path.join(this.fileStorage.baseFolder, 'Plugins')
+    if(!fs.existsSync(this.extensionFolder)) {
+      fs.mkdirSync(this.extensionFolder)
     }
     const baseDependencies = path.join(appConfig.paths.appPath, 'node_modules')
-    const symlink = path.join(this._fileStorage.baseFolder, 'node_modules')
+    const symlink = path.join(this.fileStorage.baseFolder, 'node_modules')
     if (!fs.existsSync(symlink) && (fs.existsSync(baseDependencies))) {
       fs.symlinkSync(baseDependencies, symlink, 'junction')
     }
@@ -35,11 +35,11 @@ class ExtensionManager {
     process.noAsar = false
 
     try {
-      const extension = require(path.join(this._extensionFolder, extensionName))
-      const extensionMeta = require(path.join(this._extensionFolder, extensionName, '/package.json'))
+      const extension = require(path.join(this.extensionFolder, extensionName))
+      const extensionMeta = require(path.join(this.extensionFolder, extensionName, '/package.json'))
       extensionInfo = {
         component: extension.default,
-        root: uri.parse(this._extensionFolder),
+        root: uri.parse(this.extensionFolder),
         location: extensionName,
         module: extensionMeta,
         path: extensionMeta.config.path
@@ -55,7 +55,7 @@ class ExtensionManager {
   activateExtension(extensionName: string): bool {
     let extensionInfo = this._tryLoadExtension(extensionName)
     if (extensionInfo)
-      this._activeExtensions.push(extensionInfo)
+      this.activeExtensions.push(extensionInfo)
     return (extensionInfo !== null)
   }
 
@@ -77,7 +77,7 @@ class ExtensionManager {
   }
 
   get extensions() {
-    return this._activeExtensions
+    return this.activeExtensions
   }
 }
 

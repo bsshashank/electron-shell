@@ -8,7 +8,7 @@ import lf from 'lovefield'
  */
 class SqlDatabase {
 
-  _db: Object
+  db: Object
 
   /**
    * Creates an instance of SqlDatabase.
@@ -17,7 +17,7 @@ class SqlDatabase {
    * @param {number} [dbVersion=1]
    */
   constructor (dbName:string, dbVersion:number = 1) {
-    this._db = lf.schema.create(dbName, dbVersion)
+    this.db = lf.schema.create(dbName, dbVersion)
   }
 }
 

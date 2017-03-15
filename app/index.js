@@ -8,6 +8,7 @@
 
   const path = require('path')
   const os = require('os')
+  const username = require('username')
 
   const BrowserWindow = electron.BrowserWindow
   const Tray = electron.Tray
@@ -19,11 +20,10 @@
   const appVersion = app.getVersion()
   const appPath = app.getAppPath()
   const dataDir = app.getPath('userData') + path.sep
-  const cacheDir = app.getPath('userCache') + path.sep
   const tempDir = app.getPath('temp') + path.sep
   const homeDir = app.getPath('home') + path.sep
   const hostname = os.hostname()
-  const username = (process.platform === 'win32') ? process.env.USERNAME : process.env.USER
+  const user = username.sync()
 
   // adds debug features like hotkeys for triggering dev tools and reload
   let debugOptions = {}
@@ -193,13 +193,12 @@
       host: hostname,
       platform: process.platform,
       defaultLocale: app.getLocale(),
-      user: username,
+      user: user,
       paths: {
         appPath: appPath,
         home: homeDir,
         temp: tempDir,
-        data: dataDir,
-        cache: cacheDir
+        data: dataDir
       }
     }
   }

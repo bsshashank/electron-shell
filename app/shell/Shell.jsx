@@ -23,14 +23,13 @@ import type { ApplicationConfig, ISqlDatabase, IDocumentDatabase, ITripleStore, 
 
 class Shell extends Reflux.Component {
 
-  _appCfg: ApplicationConfig
-  _sqlDB: ISqlDatabase
-  _docDB: IDocumentDatabase
-  _graphDB: ITripleStore
-  _fileStore: IFileStorage
-  _extensionManager: IExtensionManager
-  _routeHandler: IRouteHandler
-  store: ShellStore
+  config: ApplicationConfig
+  sqlDB: ISqlDatabase
+  docDB: IDocumentDatabase
+  graphDB: ITripleStore
+  fileStore: IFileStorage
+  extensionManager: IExtensionManager
+  routeHandler: IRouteHandler
 
   /**
    * Creates an instance of Shell.
@@ -39,21 +38,19 @@ class Shell extends Reflux.Component {
   constructor (props, context) {
     super(props, context)
 
-    this._appCfg = this.props.config
-    this._sqlDB = new SqlDatabase(this._appCfg.app.name)
-    this._docDB = new DocumentDatabase(this._appCfg.app.name)
-    this._graphDB = new TripleStore(this._appCfg.app.name)
-    this._fileStore = new FileStorage(this._appCfg)
+    this.config = this.props.config
+    this.sqlDB = new SqlDatabase(this.config.app.name)
+    this.docDB = new DocumentDatabase(this.config.app.name)
+    this.graphDB = new TripleStore(this.config.app.name)
+    this.fileStore = new FileStorage(this.config)
 
-    this._extensionManager = new ExtensionManager(this._appCfg, this._fileStore)
-    this._routeHandler = new RouteHandler(this._appCfg, this._extensionManager)
+    this.extensionManager = new ExtensionManager(this.config, this.fileStore)
+    this.routeHandler = new RouteHandler(this.config, this.extensionManager)
 
-    this.store = new ShellStore(this._appCfg, this._docDB)
-    this.store.initialize()
-    .then(() => {
+    this.store = new ShellStore(this.config, this.docDB)
+    this.store.initialize().then(() => {
       ShellActions.mountActiveExtensions()
-    })
-    .catch((error) => {
+    }).catch((error) => {
 
     })
   }
@@ -65,10 +62,11 @@ class Shell extends Reflux.Component {
    */
   getChildContext() {
     return {
-      appConfig: this._appCfg,
-      documentDatabase: this._docDB,
-      graphDatabase: this._graphDB,
-      sqlDatabase: this._sqlDB
+      appConfig: this.config,
+      documentDatabase: this.docDB,
+      graphDatabase: this.graphDB,
+      sqlDatabase: this.sqlDB,
+      fileStorage: this.fileStore
     }
   }
 
@@ -77,7 +75,7 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  minimizeApp () {
+  minimizeApp () : void {
     this.props.minimizeHandler()
   }
 
@@ -86,7 +84,7 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  toggleFullScreen () {
+  toggleFullScreen () : void {
    this.props.fullScreenHandler()
   }
 
@@ -95,8 +93,8 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  closeApp () {
-    this._docDB.save({ event: 'closed' }).then(() => {
+  closeApp () : void {
+    this.docDB.save({ event: 'closed' }).then(() => {
      this.props.closeHandler()
     })
   }
@@ -108,12 +106,13 @@ class Shell extends Reflux.Component {
    */
   render () {
     let modules = []
+    console.log(this.props, this.state)
     return (
       <div style={[WindowStyle]}>
-        <TitleBar platform={this._appCfg.platform} title={this.state.title}
+        <TitleBar platform={this.config.platform} title={this.state.title}
                   closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
                   minimizeHandler={this.minimizeApp.bind(this)} />
-        <Router history={hashHistory} routes={this._routeHandler.routes}></Router>
+        <Router history={hashHistory} routes={this.routeHandler.routes}></Router>
       </div>
     )
   }
@@ -123,7 +122,8 @@ Shell.childContextTypes = {
   appConfig: React.PropTypes.object.isRequired,
   documentDatabase: React.PropTypes.object.isRequired,
   graphDatabase: React.PropTypes.object.isRequired,
-  sqlDatabase: React.PropTypes.object.isRequired
+  sqlDatabase: React.PropTypes.object.isRequired,
+  fileStorage: React.PropTypes.object.isRequired
 }
 
 Shell.propTypes = {

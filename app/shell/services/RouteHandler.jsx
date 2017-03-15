@@ -12,14 +12,14 @@ import SettingsManager from '../components/SettingsManager'
  */
 class RouteHandler {
 
-  _appConfig: Object
-  _extensionManager: Object
-  _routes: Map
+  config: Object
+  extensionManager: Object
+  routeMap: Map
 
   constructor (appConfig, extensionManager) {
-    this._appConfig = appConfig
-    this._extensionManager = extensionManager
-    this._routes = {
+    this.config = appConfig
+    this.extensionManager = extensionManager
+    this.routeMap = {
       path: '/',
       component: MainLayout,
       indexRoute: { component: Home },
@@ -31,7 +31,7 @@ class RouteHandler {
   }
 
   get routes () {
-    return this._routes
+    return this.routeMap
   }
 
 }

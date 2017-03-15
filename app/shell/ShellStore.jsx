@@ -28,29 +28,29 @@ var viewSpecs = {
 
 class ShellStore extends Reflux.Store {
 
-  _appCfg: ApplicationConfig
-  _docDB: IDocumentDatabase
+  config: ApplicationConfig
+  docDB: IDocumentDatabase
 
   constructor(appConfig: ApplicationConfig, docDB: IDocumentDatabase) {
+
     super()
-    this._appCfg = appConfig
-    this._docDB = docDB
+    this.config = appConfig
+    this.docDB = docDB
+    this.listenables = ShellActions
 
     this.state = {
       initialized: false,
       extensions: [],
       activeModule: "Home",
-      locale: this._appCfg.defaultLocale,
-      title: `${this._appCfg.app.name} ${this._appCfg.app.version}`
+      locale: this.config.defaultLocale,
+      title: `${this.config.app.name} ${this.config.app.version}`
     }
-
-    this.listenables = ShellActions
   }
 
   initialize() : Promise<Object> {
 
     let initPromise = new Promise((resolve, reject) => {
-      this._docDB.save(viewSpecs)
+      this.docDB.save(viewSpecs).then(resolve).catch(reject)
     })
 
     return initPromise
@@ -58,22 +58,18 @@ class ShellStore extends Reflux.Store {
 
   onMountActiveExtensions() {
 
-    let loading: Promise<Object>[] = [
-      this._docDB.query('shell/extensions', { include_docs: true }),
-      this._docDB.query('shell/settings', { include_docs: true })
+    let loading = [
+      this.docDB.query('shell/extensions', { include_docs: true }),
+      this.docDB.query('shell/settings', { include_docs: true })
     ]
 
-    Promise.all(loading)
-    .then((results) => {
-      console.log(...results)
-      /**let extensions = result.rows.map((item) => item.doc)
-      let settings = result.rows.map((item) => item.doc)
+    Promise.all(loading).then((results) => {
+      let extensions = results[0].rows.map((item) => item.doc)
+      let settings = results[1].rows.map((item) => item.doc)
       console.log(`Mount active extensions ${extensions.toString()} with settings ${settings.toString()}`)
-      this.setState({ extensions: extensions, settings: settings }) **/
-    })
-    .catch((error) => {
+      this.setState({ extensions: extensions, settings: settings })
+    }).catch((error) => {
       console.log(error.toString())
-      console.log(Reflux.GlobalState)
     })
   }
 

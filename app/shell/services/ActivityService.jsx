@@ -10,12 +10,12 @@ import type { ApplicationConfig, IDocumentDatabase } from 'electron-shell'
  */
 class ActivityService {
 
-  _appCfg: ApplicationConfig
-  _docDatabase: IDocumentDatabase
+  config: ApplicationConfig
+  docDB: IDocumentDatabase
 
-  constructor (appConfig: ApplicationConfig, documentDatabase: DocumentDatabase) {
-    this._appCfg = appConfig
-    this._docDatabase = documentDatabase
+  constructor (appConfig: ApplicationConfig, docDB: IDocumentDatabase) {
+    this.config = appConfig
+    this.docDB = docDB
   }
 
   addEvent (event:string, message:string) {

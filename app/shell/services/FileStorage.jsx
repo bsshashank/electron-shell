@@ -12,20 +12,20 @@ import ncp from 'ncp'
  */
 class FileStorage {
 
-  _dataFolder: string
-  _tempFolder: string
+  dataDir: string
+  tempDir: string
 
   constructor(appConfig:Object) {
-    this._dataFolder = appConfig.paths.data
-    this._tempFolder = appConfig.paths.temp
+    this.dataDir = appConfig.paths.data
+    this.tempDir = appConfig.paths.temp
   }
 
   get baseFolder(): string {
-    return this._dataFolder
+    return this.dataDir
   }
 
   get tempFolder(): string {
-    return this._tempFolder
+    return this.tempDir
   }
 }
 

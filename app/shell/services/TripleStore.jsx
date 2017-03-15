@@ -8,7 +8,7 @@ import { Store } from 'rdfstore'
  */
 class TripleStore {
 
-  _db: Object
+  db: Object
 
   /**
    * Creates an instance of TripleStore.
@@ -18,7 +18,7 @@ class TripleStore {
    */
   constructor (dbName:string, dbVersion:number = 1) {
     Store({ persistent: true, name: `${dbName}.${dbVersion}` }, (err, db) => {
-      this._db = db
+      this.db = db
     })
   }
 }
