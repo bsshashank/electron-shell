@@ -4,9 +4,13 @@ import Radium from 'radium'
 
 import { appTitleStyle } from './ControlStyles'
 
-const AppTitle = (props) => {
+/**
+ * Renders the application title to the MainWindow
+ * @param {string} title the title to display on the MainWindow
+ */
+const AppTitle = ({ title }) => {
   return (
-    <span style={[appTitleStyle]}>{props.title}</span>
+    <span style={[appTitleStyle]}>{title}</span>
   )
 }
 

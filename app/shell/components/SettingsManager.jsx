@@ -1,8 +1,9 @@
 // @flow
 import React from 'react'
 import Radium from 'radium'
+import Reflux from 'reflux'
 
-class SettingsManager extends React.Component {
+class SettingsManager extends Reflux.Component {
 
   constructor (props, context) {
     super (props, context)

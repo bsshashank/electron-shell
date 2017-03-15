@@ -62,9 +62,10 @@ class ShellStore extends Reflux.Store {
       this._docDB.query('shell/extensions', { include_docs: true }),
       this._docDB.query('shell/settings', { include_docs: true })
     ]
+
     Promise.all(loading)
     .then((results) => {
-      console.log(results)
+      console.log(...results)
       /**let extensions = result.rows.map((item) => item.doc)
       let settings = result.rows.map((item) => item.doc)
       console.log(`Mount active extensions ${extensions.toString()} with settings ${settings.toString()}`)

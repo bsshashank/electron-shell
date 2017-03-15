@@ -2,11 +2,12 @@
 
 import React from 'react'
 import Radium from 'radium'
+import Reflux from 'reflux'
 
 import { Link } from 'react-router'
 import { SplitView, SplitViewPaneToggle } from 'react-winjs'
 
-class MainLayout extends React.Component {
+class MainLayout extends Reflux.Component {
 
   constructor (props, context) {
     super (props, context)
@@ -21,12 +22,6 @@ class MainLayout extends React.Component {
 
   navigateTo (route:string) {
     this.props.router.push(route)
-  }
-
-  getConnectedProperties () {
-    return {
-      extensions: ['app', 'routes']
-    }
   }
 
   render () {

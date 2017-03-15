@@ -41,8 +41,8 @@
       "iconSize": 80,
       "contents": [
         {
-            "x": 100,
-            "y": 220
+          "x": 100,
+          "y": 220
         },
         {
           "x": 280,
@@ -55,22 +55,29 @@
     "linux": {
       "category": "Utility",
       "packageCategory": "utils",
-      "target": ["rpm", "deb"],
+      "target": [
+        "rpm",
+        "deb"
+      ],
       "depends": []
     },
     "mac": {
       "category": "",
-      "target": ["dmg"]
+      "target": [
+        "dmg"
+      ]
     },
     "squirrelWindows": {
       "iconUrl": "https://raw.githubusercontent.com/appelgriebsch/electron-shell/master/build/icon.ico"
     },
     "win": {
-      "target": ["squirrel"]
+      "target": [
+        "squirrel"
+      ]
     }
   },
   "scripts": {
-    "postinstall": "cd app && yarn install --ignore-optional",
+    "postinstall": "cd app && npm install --no-optional",
     "start": "npm run compile && cross-env DEBUG=1 npm --prefix app/ start",
     "compile": "babel --presets es2015,react --plugins babel-plugin-transform-flow-strip-types --plugins babel-plugin-transform-object-rest-spread --ignore node_modules/ --compact true --source-maps inline --minified --extensions .jsx app/ -d app/",
     "prune": "cd app && yarn prune --production",
@@ -94,7 +101,6 @@
     "electron-builder": "^15.1.1",
     "jsdoc": "^3.4.3",
     "jsdoc-babel": "^0.3.0",
-    "standard": "^9.0.0",
-    "yarn": "^0.21.3"
+    "standard": "^9.0.0"
   }
 }

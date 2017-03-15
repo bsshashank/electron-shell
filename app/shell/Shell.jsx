@@ -2,7 +2,7 @@
 import React from 'react'
 import Radium from 'radium'
 
-import { Link } from 'react-router'
+import { Link, Router, hashHistory } from 'react-router'
 
 import DocumentDatabase from './services/DocumentDatabase'
 import FileStorage from './services/FileStorage'
@@ -11,8 +11,6 @@ import TripleStore from './services/TripleStore'
 
 import ExtensionManager from './services/ExtensionManager'
 import RouteHandler from './services/RouteHandler'
-
-import { Router, hashHistory } from 'react-router'
 
 import TitleBar from './components/TitleBar'
 import { WindowStyle } from './components/ControlStyles'
@@ -32,6 +30,7 @@ class Shell extends Reflux.Component {
   _fileStore: IFileStorage
   _extensionManager: IExtensionManager
   _routeHandler: IRouteHandler
+  store: ShellStore
 
   /**
    * Creates an instance of Shell.
@@ -55,7 +54,7 @@ class Shell extends Reflux.Component {
       ShellActions.mountActiveExtensions()
     })
     .catch((error) => {
-      
+
     })
   }
 
@@ -109,7 +108,6 @@ class Shell extends Reflux.Component {
    */
   render () {
     let modules = []
-
     return (
       <div style={[WindowStyle]}>
         <TitleBar platform={this._appCfg.platform} title={this.state.title}

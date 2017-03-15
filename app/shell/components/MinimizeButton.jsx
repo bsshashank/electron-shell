@@ -5,12 +5,17 @@ import Radium from 'radium'
 import { winButtonStyle, winIconStyle,
          osxButtonStyle, osxIconStyle } from './ControlStyles'
 
-const MinimizeButton = (props) => {
+/**
+ * Renders the OS-specific minimize button in the titlebar of the MainWindow
+ * @param {string} platform     the current OS we are running on
+ * @param {React.EventHandler} clickHandler the function handling the click event
+ */
+const MinimizeButton = ({ platform, clickHandler }) => {
 
   var btnStyles = []
   var icon = {}
 
-  if (props.platform !== 'darwin') {
+  if (platform !== 'darwin') {
     btnStyles = [winButtonStyle.base]
     icon = (
       <svg x='0px' y='0px' viewBox='0 0 10.2 1' style={[winIconStyle]}>
@@ -27,7 +32,7 @@ const MinimizeButton = (props) => {
   }
 
   return (
-    <a key='minBtn' style={btnStyles} onClick={props.clickHandler}>
+    <a key='minBtn' style={btnStyles} onClick={clickHandler}>
       {icon}
     </a>
   )

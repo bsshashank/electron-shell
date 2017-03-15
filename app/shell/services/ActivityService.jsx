@@ -1,6 +1,6 @@
 // @flow
 
-import type { ApplicationConfig, DocumentDatabase } from 'electron-shell'
+import type { ApplicationConfig, IDocumentDatabase } from 'electron-shell'
 
 /**
  * Provides access to and manages activities done in the application
@@ -11,7 +11,7 @@ import type { ApplicationConfig, DocumentDatabase } from 'electron-shell'
 class ActivityService {
 
   _appCfg: ApplicationConfig
-  _docDatabase: DocumentDatabase
+  _docDatabase: IDocumentDatabase
 
   constructor (appConfig: ApplicationConfig, documentDatabase: DocumentDatabase) {
     this._appCfg = appConfig

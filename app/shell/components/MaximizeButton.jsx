@@ -5,12 +5,17 @@ import Radium from 'radium'
 import { winButtonStyle, winIconStyle,
          osxButtonStyle, osxIconStyle } from './ControlStyles'
 
-const MaximizeButton = (props) => {
+/**
+ * Renders the os-specific maximize button in the titlebar of the MainWindow
+ * @param {string} platform     the current OS we are running on
+ * @param {React.EventHandler} clickHandler the function handling the click event
+ */
+const MaximizeButton = ({ platform, clickHandler }) => {
 
   var btnStyles = []
   var icon = {}
 
-  if (props.platform !== 'darwin') {
+  if (platform !== 'darwin') {
     btnStyles = [winButtonStyle.base]
     icon = (
       <svg x='0px' y='0px' viewBox='0 0 10.2 10.2' style={[winIconStyle]}>
@@ -28,7 +33,7 @@ const MaximizeButton = (props) => {
   }
 
   return (
-    <a key='maxBtn' style={btnStyles} onClick={props.clickHandler}>
+    <a key='maxBtn' style={btnStyles} onClick={clickHandler}>
       {icon}
     </a>
   )

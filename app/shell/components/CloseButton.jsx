@@ -5,12 +5,17 @@ import Radium from 'radium'
 import { winButtonStyle, winIconStyle,
          osxButtonStyle, osxIconStyle } from './ControlStyles'
 
-const CloseButton = (props) => {
+/**
+ * Renders the os-specific close button to the MainWindow
+ * @param {string} platform     the current OS we are running on
+ * @param {React.EventHandler} clickHandler the function handling the click event
+ */
+const CloseButton = ({ platform, clickHandler }) => {
 
   var btnStyles = []
   var icon = {}
 
-  if (props.platform !== 'darwin') {
+  if (platform !== 'darwin') {
     btnStyles = [winButtonStyle.base, winButtonStyle.close]
     icon = (
       <svg x='0px' y='0px' viewBox='0 0 10.2 10.2' style={[winIconStyle]}>
@@ -27,7 +32,7 @@ const CloseButton = (props) => {
   }
 
   return (
-    <a key='closeBtn' style={btnStyles} onClick={props.clickHandler}>
+    <a key='closeBtn' style={btnStyles} onClick={clickHandler}>
       {icon}
     </a>
   )
