@@ -80,7 +80,7 @@
     "postinstall": "cd app && npm install --no-optional",
     "start": "npm run compile && cross-env DEBUG=1 npm --prefix app/ start",
     "compile": "babel --presets es2015,react --plugins babel-plugin-transform-flow-strip-types --plugins babel-plugin-transform-object-rest-spread --ignore node_modules/ --compact true --source-maps inline --minified --extensions .jsx app/ -d app/",
-    "prune": "cd app && yarn prune --production",
+    "prune": "cd app && npm prune --production",
     "pre-build": "npm run -s compile && npm run -s prune && npm run -s build",
     "build": "npm run -s build-linux || npm run -s build-mac || npm run -s build-win",
     "build-linux": "npm run pre-build && build --x64 --linux",
