@@ -113,5 +113,5 @@ export const TitleBarStyle = {
   justifyContent: 'flex-end',
   display: 'flex',
   padding: '2px',
-  backgroundColor: '#f2f2f2'
+  backgroundColor: 'rgb(236, 236, 236)'
 }

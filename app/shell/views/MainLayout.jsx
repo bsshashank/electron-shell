@@ -16,6 +16,7 @@ class MainLayout extends Reflux.Component {
   constructor (props, context) {
     super (props, context)
     this.state = {
+      activeModule: 'Home',
       collapsed: false,
       mode: 'inline',
     }
@@ -28,8 +29,14 @@ class MainLayout extends Reflux.Component {
     })
   }
 
-  navigateTo (route:string) {
-    this.props.router.push(route)
+  navigateTo ({ key }) {
+    if (key === '.$1') {
+      this.setState({ activeModule: 'Home' })
+      this.props.router.push('/')
+    } else if (key === '.$2') {
+      this.setState({ activeModule: 'Settings'})
+      this.props.router.push('settings')
+    }
   }
 
   render () {
@@ -49,38 +56,28 @@ class MainLayout extends Reflux.Component {
           onCollapse={this.handleTogglePane.bind(this)}
         >
           <div className="logo" />
-          <Menu theme="dark" mode={this.state.mode} defaultSelectedKeys={['6']}>
-            <Menu.SubMenu
-              key="sub1"
-              title={<span><Icon type="user" /><span className="nav-text">User</span></span>}
-            >
-              <Menu.Item key="1">Tom</Menu.Item>
-              <Menu.Item key="2">Bill</Menu.Item>
-              <Menu.Item key="3">Alex</Menu.Item>
-            </Menu.SubMenu>
-            <Menu.SubMenu
-              key="sub2"
-              title={<span><Icon type="team" /><span className="nav-text">Team</span></span>}
-            >
-              <Menu.Item key="4">Team 1</Menu.Item>
-              <Menu.Item key="5">Team 2</Menu.Item>
-            </Menu.SubMenu>
-            <Menu.Item key="6">
+          <Menu theme="dark" mode={this.state.mode} defaultSelectedKeys={['1']}
+                onClick={this.navigateTo.bind(this)}>
+            <Menu.Item key="1">
               <span>
-                <Icon type="file" />
-                <span className="nav-text">File</span>
+                <Icon type="home" />
+                <span className="nav-text">Home</span>
+              </span>
+            </Menu.Item>
+            <Menu.Item key="2">
+              <span>
+                <Icon type="setting" />
+                <span className="nav-text">Settings</span>
               </span>
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '0 16px' }}>
+          <Content style={{ margin: '0 16px', height: '100%' }}>
             <Breadcrumb style={{ margin: '12px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
+              <Breadcrumb.Item>{this.state.activeModule}</Breadcrumb.Item>
             </Breadcrumb>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+            <div style={{ padding: 24, background: '#fff', minHeight: 360, height: '90%' }}>
               {this.props.children}
             </div>
           </Content>
