@@ -7,9 +7,9 @@ An electron shell project incl. PouchDB, React + NuclearJS, Metro UI library, ..
 * [Electron](http://electron.atom.io)
 * [ReactJS](http://facebook.github.io/react/)
 * [React-Router](https://github.com/reactjs/react-router)
-* [NuclearJS](https://optimizely.github.io/nuclear-js/) (ImmutableJS and Flux-based architecture)
-* [Metro UI](https://developer.microsoft.com/en-us/windows/develop/winjs)
-* [PouchDB](https://pouchdb.com/) + Plugins (MongoDB-style query language and full-text search engine support)
+* [Reflux](https://github.com/reflux/refluxjs)
+* [AntD](https://ant.design)
+* [PouchDB](https://pouchdb.com/)
 * [Lovefield](https://google.github.io/lovefield/)
 * [rdfstore-js](http://antoniogarrote.github.io/rdfstore-js/)
 
