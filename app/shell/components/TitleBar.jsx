@@ -9,6 +9,8 @@ import MinimizeButton from './MinimizeButton'
 import MaximizeButton from './MaximizeButton'
 import CloseButton from './CloseButton'
 
+import { TitleBarStyle } from '../styles/ControlStyles'
+
 /**
  * Renders the OS-specific titlebar on the MainWindow
  * @param {string} platform        the current OS we are running on
@@ -22,7 +24,7 @@ const TitleBar = ({ platform, title, closeHandler, minimizeHandler, maximizeHand
   let headerComponents = {}
   if (platform !== 'darwin') {
     headerComponents = (
-      <div style={{height: '24px', flex: 1, alignContent: 'flex-end', alignItems: 'flex-end', justifyContent: 'flex-end', display: 'flex', padding: '2px', backgroundColor: '#f2f2f2'}}>
+      <div style={[TitleBarStyle]}>
         <AppTitle title={title} />
         <DragHandler key='left' />
         <MinimizeButton platform={platform} clickHandler={minimizeHandler} />
@@ -32,7 +34,7 @@ const TitleBar = ({ platform, title, closeHandler, minimizeHandler, maximizeHand
     )
   } else {
     headerComponents = (
-      <div style={{height: '24px', flex: 1, alignContent: 'flex-start', alignItems: 'flex-start', justifyContent: 'flex-start', display: 'flex', padding: '2px', backgroundColor: '#f2f2f2'}}>
+      <div style={[TitleBarStyle]}>
         <CloseButton platform={platform} clickHandler={closeHandler} />
         <MinimizeButton platform={platform} clickHandler={minimizeHandler} />
         <MaximizeButton platform={platform} clickHandler={maximizeHandler} />

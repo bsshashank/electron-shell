@@ -1,0 +1,40 @@
+[
+  {
+    "_id": "buildin/extension/Home",
+    "version": "0.1.0",
+    "root": "Home",
+    "location": "buildin",
+    "path": "home",
+    "module": {
+      "name": "Home",
+      "description": "Initial home screen",
+      "version": "0.1.0",
+      "config": {
+        "label": "Home",
+        "icon": "home",
+        "banner": "",
+        "removable": false
+      }
+    },
+    "type": "extension"
+  },
+  {
+    "_id": "buildin/extension/SettingsManager",
+    "version": "0.1.0",
+    "root": "SettingsManager",
+    "location": "buildin",
+    "path": "settings",
+    "module": {
+      "name": "Settings",
+      "description": "Manage application settings",
+      "version": "0.1.0",
+      "config": {
+        "label": "Settings",
+        "icon": "settings",
+        "banner": "settings.png",
+        "removable": false
+      }
+    },
+    "type": "extension"
+  }
+]

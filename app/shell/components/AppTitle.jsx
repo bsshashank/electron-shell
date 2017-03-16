@@ -2,7 +2,7 @@
 import React from 'react'
 import Radium from 'radium'
 
-import { appTitleStyle } from './ControlStyles'
+import { appTitleStyle } from '../styles/ControlStyles'
 
 /**
  * Renders the application title to the MainWindow

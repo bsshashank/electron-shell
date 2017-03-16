@@ -3,7 +3,7 @@ import React from 'react'
 import Radium from 'radium'
 
 import { winButtonStyle, winIconStyle,
-         osxButtonStyle, osxIconStyle } from './ControlStyles'
+         osxButtonStyle, osxIconStyle } from '../styles/ControlStyles'
 
 /**
  * Renders the os-specific maximize button in the titlebar of the MainWindow

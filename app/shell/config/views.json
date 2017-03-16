@@ -1,0 +1,12 @@
+{
+  "_id": "_design/shell",
+  "version": "0.1.0",
+  "views": {
+    "extensions": {
+      "map": "function mapFun (doc) { if (doc.type === 'extension') { emit(doc.id, doc) } }"
+    },
+    "settings": {
+      "map": "function mapFun (doc) { if (doc.type === 'setting') { emit (doc.extensionid, doc) } }"
+    }
+  }
+}

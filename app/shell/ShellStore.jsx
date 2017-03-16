@@ -5,26 +5,8 @@ import ShellActions from './ShellActions'
 
 import type { ApplicationConfig, IDocumentDatabase } from 'electron-shell'
 
-var viewSpecs = {
-  _id: '_design/shell',
-  version: '0.1.0',
-  views: {
-    extensions: {
-      map: function mapFun (doc) {
-        if (doc.type === 'extension') {
-          emit(doc.id, doc)
-        }
-      }.toString()
-    },
-    settings: {
-      map: function mapFun (doc) {
-        if (doc.type === 'setting') {
-          emit (doc.extensionid, doc)
-        }
-      }.toString()
-    }
-  }
-}
+import viewSpecs from './config/views.json'
+import initialData from './config/data.json'
 
 class ShellStore extends Reflux.Store {
 
@@ -49,8 +31,12 @@ class ShellStore extends Reflux.Store {
 
   initialize() : Promise<Object> {
 
+    console.log(viewSpecs, initialData)
+
     let initPromise = new Promise((resolve, reject) => {
-      this.docDB.save(viewSpecs).then(resolve).catch(reject)
+      this.docDB.save(viewSpecs).then(() => {
+        return this.docDB.save(initialData)
+      }).then(resolve).catch(reject)
     })
 
     return initPromise

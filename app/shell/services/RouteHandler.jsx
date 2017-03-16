@@ -1,8 +1,8 @@
 // @flow
 
-import MainLayout from '../components/MainLayout'
-import Home from '../components/Home'
-import SettingsManager from '../components/SettingsManager'
+import MainLayout from '../views/MainLayout'
+import Home from '../views/Home'
+import SettingsManager from '../views/SettingsManager'
 
 /**
  * Manages and maintains all routes internal to the

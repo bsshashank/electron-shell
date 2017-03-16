@@ -1,0 +1,19 @@
+#mainLayout .logo {
+  height: 31px;
+  background: #332;
+  border-radius: 5px;
+  margin: 15px;
+}
+
+#mainLayout .ant-layout-sider-collapsed .anticon {
+  font-size: 15px;
+  margin-left: 7px;
+}
+
+#mainLayout .ant-layout-sider-collapsed .nav-text {
+  display: none;
+}
+
+#mainLayout .ant-layout-sider-collapsed .ant-menu-submenu-vertical > .ant-menu-submenu-title:after {
+  display: none;
+}

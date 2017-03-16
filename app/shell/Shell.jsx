@@ -13,7 +13,7 @@ import ExtensionManager from './services/ExtensionManager'
 import RouteHandler from './services/RouteHandler'
 
 import TitleBar from './components/TitleBar'
-import { WindowStyle } from './components/ControlStyles'
+import { WindowStyle } from './styles/ControlStyles'
 
 import Reflux from 'reflux'
 import ShellActions from './ShellActions'
@@ -106,7 +106,7 @@ class Shell extends Reflux.Component {
    */
   render () {
     let modules = []
-    console.log(this.props, this.state)
+    console.log(this.state)
     return (
       <div style={[WindowStyle]}>
         <TitleBar platform={this.config.platform} title={this.state.title}

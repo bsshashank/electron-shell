@@ -1,7 +1,7 @@
 // @flow
 
 export const WindowStyle = {
-  padding: 0,
+  padding: '0 0 0.8em',
   margin: 0,
   height: '100%',
   width: '100%',
@@ -12,10 +12,8 @@ export const WindowStyle = {
 export const appTitleStyle = {
   WebkitUserSelect: 'none',
   cursor: 'default',
-  fontFamily: 'Segoe UI',
-  fontSize: '12px',
   paddingLeft: '10px',
-  paddingBottom: '5px'
+  fontSize: '12px'
 }
 
 export const dragStyle = {
@@ -25,9 +23,8 @@ export const dragStyle = {
 }
 
 export const winIconStyle = {
-  width: '10px',
-  height: '10px',
-  paddingLeft: '5px',
+  width: '0.8em',
+  height: '0.8em',
   ':hover': {
     opacity: 100
   }
@@ -36,13 +33,12 @@ export const winIconStyle = {
 export const winButtonStyle = {
   base: {
     height: '24px',
-    width: '24px',
+    width: '36px',
     borderRadius: '10%',
     marginTop: 0,
     marginBottom: 0,
     minWidth: 0,
-    lineHeight: '30px',
-    padding: '8px',
+    paddingLeft: '0.8em',
     ':active': {
       backgroundColor: 'rgba(255, 255, 255, .23)'
     },
@@ -107,4 +103,15 @@ export const osxButtonStyle = {
       borderColor: '#128622'
     }
   }
+}
+
+export const TitleBarStyle = {
+  height: '24px',
+  flex: 1,
+  alignContent: 'flex-end',
+  alignItems: 'flex-end',
+  justifyContent: 'flex-end',
+  display: 'flex',
+  padding: '2px',
+  backgroundColor: '#f2f2f2'
 }
