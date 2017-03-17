@@ -18,9 +18,9 @@
   }
 
   declare interface IDocumentDatabase {
-    save: (doc:Object) => Promise<Object>;
-    get: (id:string) => Promise<Object>;
-    query: (view:string, options:Object) => Promise<Object>;
+    save (doc:Object): Promise<Object>;
+    get (id:string): Promise<Object>;
+    query (view:string, options:Object): Promise<Object>;
   }
 
   declare interface ISqlDatabase {
@@ -40,6 +40,6 @@
   }
 
   declare interface IRouteHandler {
-    routes: () => any
+    routes(): any
   }
 }

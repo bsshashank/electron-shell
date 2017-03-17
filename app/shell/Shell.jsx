@@ -19,7 +19,8 @@ import Reflux from 'reflux'
 import ShellActions from './ShellActions'
 import ShellStore from './ShellStore'
 
-import type { ApplicationConfig, ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage, IExtensionManager, IRouteHandler } from 'electron-shell'
+import type { ApplicationConfig, ISqlDatabase, IDocumentDatabase, ITripleStore,
+              IFileStorage, IExtensionManager, IRouteHandler } from 'electron-shell'
 
 class Shell extends Reflux.Component {
 
@@ -106,7 +107,6 @@ class Shell extends Reflux.Component {
    */
   render () {
     let modules = []
-    console.log(this.state)
     return (
       <div style={[WindowStyle]}>
         <TitleBar platform={this.config.platform} title={this.state.title}

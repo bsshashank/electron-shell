@@ -17,7 +17,7 @@ class MainLayout extends Reflux.Component {
     super (props, context)
     this.state = {
       activeModule: 'Home',
-      collapsed: false,
+      collapsed: true,
       mode: 'inline',
     }
   }

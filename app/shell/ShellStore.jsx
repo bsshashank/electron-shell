@@ -31,18 +31,26 @@ class ShellStore extends Reflux.Store {
 
   initialize() : Promise<Object> {
 
-    console.log(viewSpecs, initialData)
-
     let initPromise = new Promise((resolve, reject) => {
       this.docDB.save(viewSpecs).then(() => {
-        return this.docDB.save(initialData)
-      }).then(resolve).catch(reject)
+        let initializing = initialData.map(d => this.docDB.save(d))
+        return Promise.all(initializing)
+      }).then(() => {
+        this.setState({ initialized: true })
+        resolve({})
+      }).catch((error) => {
+        this.setState({ initialized: false })
+        reject(error)
+      })
     })
 
     return initPromise
   }
 
   onMountActiveExtensions() {
+
+    if (!this.state.initialize)
+      throw 'ERR_NOT_INITIALIZED'
 
     let loading = [
       this.docDB.query('shell/extensions', { include_docs: true }),
@@ -52,10 +60,10 @@ class ShellStore extends Reflux.Store {
     Promise.all(loading).then((results) => {
       let extensions = results[0].rows.map((item) => item.doc)
       let settings = results[1].rows.map((item) => item.doc)
-      console.log(`Mount active extensions ${extensions.toString()} with settings ${settings.toString()}`)
       this.setState({ extensions: extensions, settings: settings })
     }).catch((error) => {
       console.log(error.toString())
+      throw error
     })
   }
 
