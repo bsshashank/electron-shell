@@ -6,9 +6,6 @@ import Reflux from 'reflux'
 
 import { Link } from 'react-router'
 
-import { Layout, Menu, Breadcrumb, Icon } from 'antd'
-const { Header, Content, Footer, Sider } = Layout
-
 import { WindowStyle } from '../styles/ControlStyles'
 
 class MainLayout extends Reflux.Component {
@@ -17,15 +14,13 @@ class MainLayout extends Reflux.Component {
     super (props, context)
     this.state = {
       activeModule: 'Home',
-      collapsed: true,
-      mode: 'inline',
+      collapsed: true
     }
   }
 
   handleTogglePane (collapsed) {
     this.setState({
-      collapsed,
-      mode: collapsed ? 'vertical' : 'inline'
+      collapsed
     })
   }
 

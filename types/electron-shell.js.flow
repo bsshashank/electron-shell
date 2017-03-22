@@ -42,4 +42,8 @@
   declare interface IRouteHandler {
     routes(): any
   }
+
+  declare interface ISettingsManager {
+    
+  }
 }

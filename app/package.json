@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/appelgriebsch/electron-shell#readme",
   "dependencies": {
-    "antd": "^2.8.1",
     "electron-debug": "^1.1.0",
     "electron-devtools-installer": "^2.1.0",
     "history": "^4.5.1",
@@ -44,6 +43,7 @@
     "react-router": "^3.0.2",
     "react-tap-event-plugin": "^2.0.1",
     "reflux": "^6.4.1",
+    "spectre.css": "^0.2.10",
     "underscore": "^1.8.3",
     "username": "^2.3.0",
     "uuid": "^3.0.1"
