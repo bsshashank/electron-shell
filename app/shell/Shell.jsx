@@ -3,17 +3,15 @@ import React from 'react'
 import Radium from 'radium'
 
 import { Link, Router, hashHistory } from 'react-router'
+import { Services, Storages } from 'electron-shell-services'
+import { Components, Views } from 'electron-shell-ui'
 
-import DocumentDatabase from './services/DocumentDatabase'
-import FileStorage from './services/FileStorage'
-import SqlDatabase from './services/SqlDatabase'
-import TripleStore from './services/TripleStore'
+const { ExtensionManager, RouteHandler, SettingsManager } = Services
+const { DocumentDatabase, FileStorage, SqlDatabase, TripleStore } = Storages
+const { MainLayout } = Views
 
-import ExtensionManager from './services/ExtensionManager'
-import RouteHandler from './services/RouteHandler'
-
-import TitleBar from './components/TitleBar'
 import { WindowStyle } from './styles/ControlStyles'
+import TitleBar from './components/TitleBar'
 
 import Reflux from 'reflux'
 import ShellActions from './ShellActions'
@@ -46,7 +44,7 @@ class Shell extends Reflux.Component {
     this.fileStore = new FileStorage(this.config)
 
     this.extensionManager = new ExtensionManager(this.config, this.fileStore)
-    this.routeHandler = new RouteHandler(this.config, this.extensionManager)
+    // this.routeHandler = new RouteHandler(this.config, this.extensionManager)
 
     this.store = new ShellStore(this.config, this.docDB)
     this.store.initialize().then(() => {
@@ -112,7 +110,7 @@ class Shell extends Reflux.Component {
         <TitleBar platform={this.config.platform} title={this.state.title}
                   closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
                   minimizeHandler={this.minimizeApp.bind(this)} />
-        <Router history={hashHistory} routes={this.routeHandler.routes}></Router>
+        <MainLayout></MainLayout>
       </div>
     )
   }

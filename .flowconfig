@@ -5,6 +5,7 @@
 [include]
 
 [libs]
+./app/node_modules/electron-shell-lib/types/
 ./types/
 
 [options]

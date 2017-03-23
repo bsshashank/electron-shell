@@ -24,8 +24,10 @@ html, body, div[role='app'] {
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 8px;
   border-radius: 8px;
+  background: rgb(130, 130, 130);
   background: rgba(127, 127, 127, 0.8);
 }
 ::-webkit-scrollbar-thumb:window-inactive {
+  background: rgb(128, 128, 128);
   background: rgba(127, 127, 127, 0.4);
 }
