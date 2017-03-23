@@ -19,7 +19,7 @@ class ShellStore extends Reflux.Store {
     this.config = appConfig
     this.docDB = docDB
     this.listenables = ShellActions
-
+    
     this.state = {
       initialized: false,
       extensions: [],

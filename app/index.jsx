@@ -1,97 +1,70 @@
 // @flow
-(function() {
 
-  'use strict'
+import { app, BrowserWindow, Tray } from 'electron'
 
-  const electron = require('electron')
-  const app = electron.app
+import cp from 'child_process'
+import path from 'path'
+import os from 'os'
+import username from 'username'
 
-  const path = require('path')
-  const os = require('os')
-  const username = require('username')
+import electronDebug from 'electron-debug'
 
-  const BrowserWindow = electron.BrowserWindow
-  const Tray = electron.Tray
+let mainWindow, trayIcon
 
-  // initialize service finder module
-  const ServiceFinder = require('node-servicefinder').ServiceFinder
+/**
+ * [onClosed description]
+ * @return [type] [description]
+ */
+const onClosed = () => {
+  // deref the window
+  // for multiple windows store them in an array
+  mainWindow = null
+}
 
-  const appName = app.getName()
-  const appVersion = app.getVersion()
-  const appPath = app.getAppPath()
-  const dataDir = app.getPath('userData') + path.sep
-  const tempDir = app.getPath('temp') + path.sep
-  const homeDir = app.getPath('home') + path.sep
-  const hostname = os.hostname()
-  const user = username.sync()
+/**
+ * [onCrash description]
+ * @param  {[type]} err [description]
+ * @return [type]       [description]
+ */
+const onCrash = (err) => {
+  console.log(err)
+}
 
-  // adds debug features like hotkeys for triggering dev tools and reload
-  let debugOptions = {}
+/**
+ * [createMainWindow description]
+ * @type {[type]}
+ */
+const createMainWindow = () => {
 
-  if (process.env.DEBUG === "1") {
-    debugOptions = { enabled: true, showDevTools: 'bottom' }
+  let win = new BrowserWindow({
+    width: 1280,
+    height: 800,
+    frame: false
+  })
+
+  win.loadURL('file://' + __dirname + '/main.html')
+  win.on('closed', onClosed)
+  win.webContents.on('crashed', onCrash)
+  win.on('unresponsive', onCrash)
+
+  return win
+}
+
+/**
+ * [isInstallRequest description]
+ * @return Boolean [description]
+ */
+const isInstallRequest = (args:Array<string>) => {
+
+  if (process.platform !== 'win32') {
+    return false
   }
 
-  require('electron-debug')(debugOptions)
-  process.on('uncaughtException', onCrash)
+  let updateDotExe = path.resolve(path.dirname(process.execPath), '..', 'update.exe')
+  let target = path.basename(process.execPath)
 
-  /**
-   *  create main application window
-   *
-   * @returns
-   */
-  function createMainWindow() {
-
-    var win = new BrowserWindow({
-      width: 1280,
-      height: 800,
-      frame: false
-    })
-
-    win.loadURL('file://' + __dirname + '/main.html')
-    win.on('closed', onClosed)
-    win.webContents.on('crashed', onCrash)
-    win.on('unresponsive', onCrash)
-
-    return win
-  }
-
-  /**
-   *
-   */
-  function onClosed() {
-    // deref the window
-    // for multiple windows store them in an array
-    mainWindow = null
-  }
-
-  /**
-   *
-   *
-   * @param {any} exc
-   */
-  function onCrash(exc) {
-    console.log(exc)
-  }
-
-  /**
-   *
-   *
-   * @returns
-   */
-  var handleStartupEvent = function() {
-
-    if (process.platform !== 'win32') {
-      return false
-    }
-
-    var cp = require('child_process')
-    var path = require('path')
-    var updateDotExe = path.resolve(path.dirname(process.execPath), '..', 'update.exe')
-    var target = path.basename(process.execPath)
-
-    var squirrelCommand = process.argv[1]
-    switch (squirrelCommand) {
+  let squirrelCommand = args[1]
+  switch (squirrelCommand) {
     case '--squirrel-install':
     case '--squirrel-updated':
 
@@ -129,17 +102,25 @@
       // --squirrel-updated
       app.quit()
       return true
-    }
+  }
+}
+
+/**
+ * [startup description]
+ * @return [type] [description]
+ */
+const startup = (args:Array<string>) => {
+
+  // adds debug features like hotkeys for triggering dev tools and reload
+  let debugOptions = {}
+
+  if (process.env.DEBUG === "1") {
+    debugOptions = { enabled: true, showDevTools: 'bottom' }
+    electronDebug(debugOptions)
   }
 
-  // check if we are being called by insaller routine
-  if (handleStartupEvent()) {
-    return
-  }
-
-  // prevent window being GC'd
-  var mainWindow
-  var trayIcon
+  // check if we are being called by installer routine
+  if (isInstallRequest(args)) return;
 
   /**
    *
@@ -169,30 +150,29 @@
   /**
    *
    *
-   * @param {any} serviceName
-   * @param {any} protocol
-   * @param {any} subTypes
-   * @param {any} includeLocal
-   * @returns
-   */
-  app.serviceFinder = function(serviceName, protocol, subTypes, includeLocal) {
-    return new ServiceFinder(serviceName, protocol, subTypes, includeLocal)
-  }
-
-  /**
-   *
-   *
    * @returns
    */
   app.sysConfig = function() {
+
+    const appName = app.getName()
+    const appVersion = app.getVersion()
+    const appPath = app.getAppPath()
+    const dataDir = `${app.getPath('userData')}${path.sep}`
+    const tempDir = `${app.getPath('temp')}${path.sep}`
+    const homeDir = `${app.getPath('home')}${path.sep}`
+    const platform = os.platform()
+    const hostname = os.hostname()
+    const user = username.sync()
+    const defaultLocale = app.getLocale()
+
     return {
       app: {
         name: appName,
         version: appVersion
       },
       host: hostname,
-      platform: process.platform,
-      defaultLocale: app.getLocale(),
+      platform: platform,
+      defaultLocale: defaultLocale,
       user: user,
       paths: {
         appPath: appPath,
@@ -247,4 +227,6 @@
       mainWindow.hide()
     }
   }
-})()
+}
+
+startup(process.argv)

@@ -1,12 +1,15 @@
 // @flow
+
 import React from 'react'
 import Radium from 'radium'
 
-import { Link, Router, hashHistory } from 'react-router'
+import { IntlProvider } from 'react-intl';
+import { BrowserRouter } from 'react-router-dom';
+
 import { Services, Storages } from 'electron-shell-services'
 import { Components, Views } from 'electron-shell-ui'
 
-const { ExtensionManager, RouteHandler, SettingsManager } = Services
+const { ExtensionManager, SettingsManager } = Services
 const { DocumentDatabase, FileStorage, SqlDatabase, TripleStore } = Storages
 const { MainLayout } = Views
 
@@ -17,8 +20,9 @@ import Reflux from 'reflux'
 import ShellActions from './ShellActions'
 import ShellStore from './ShellStore'
 
-import type { ApplicationConfig, ISqlDatabase, IDocumentDatabase, ITripleStore,
-              IFileStorage, IExtensionManager, IRouteHandler } from 'electron-shell'
+import type { ApplicationConfig,
+              ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage,
+              IExtensionManager, ISettingsManager } from 'electron-shell'
 
 class Shell extends Reflux.Component {
 
@@ -28,7 +32,7 @@ class Shell extends Reflux.Component {
   graphDB: ITripleStore
   fileStore: IFileStorage
   extensionManager: IExtensionManager
-  routeHandler: IRouteHandler
+  settingsManager: ISettingsManager
 
   /**
    * Creates an instance of Shell.
@@ -44,7 +48,7 @@ class Shell extends Reflux.Component {
     this.fileStore = new FileStorage(this.config)
 
     this.extensionManager = new ExtensionManager(this.config, this.fileStore)
-    // this.routeHandler = new RouteHandler(this.config, this.extensionManager)
+    this.settingsManager = new SettingsManager(this.config, this.docDB)
 
     this.store = new ShellStore(this.config, this.docDB)
     this.store.initialize().then(() => {
@@ -104,13 +108,16 @@ class Shell extends Reflux.Component {
    * @return {type}  description
    */
   render () {
-    let modules = []
     return (
       <div style={[WindowStyle]}>
         <TitleBar platform={this.config.platform} title={this.state.title}
                   closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
                   minimizeHandler={this.minimizeApp.bind(this)} />
-        <MainLayout></MainLayout>
+        <IntlProvider locale={this.state.locale}>
+          <BrowserRouter>
+            <MainLayout />
+          </BrowserRouter>
+        </IntlProvider>
       </div>
     )
   }
