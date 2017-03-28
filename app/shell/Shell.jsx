@@ -4,14 +4,14 @@ import React from 'react'
 import Radium from 'radium'
 
 import { IntlProvider } from 'react-intl';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 
 import { Services, Storages } from 'electron-shell-services'
 import { Components, Views } from 'electron-shell-ui'
 
 const { ExtensionManager, SettingsManager } = Services
 const { DocumentDatabase, FileStorage, SqlDatabase, TripleStore } = Storages
-const { MainLayout } = Views
+const { MainLayout, Home, SettingsManager: SettingsManagerUI } = Views
 
 import { WindowStyle } from './styles/ControlStyles'
 import TitleBar from './components/TitleBar'
@@ -122,7 +122,13 @@ class Shell extends Reflux.Component {
                   minimizeHandler={this.minimizeApp.bind(this)} />
         <IntlProvider locale={this.state.locale}>
           <BrowserRouter>
-            <MainLayout title={this.state.name} />
+            <MainLayout title={this.state.name}>
+              <Switch>
+                <Route path="/settings" component={SettingsManagerUI} />
+                <Route path="/settings/:app" component={SettingsManagerUI} />
+                <Route component={Home} />
+              </Switch>
+            </MainLayout>
           </BrowserRouter>
         </IntlProvider>
       </div>
