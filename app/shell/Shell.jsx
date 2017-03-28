@@ -6,6 +6,10 @@ import Radium from 'radium'
 import { IntlProvider } from 'react-intl';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 
+import Icon from 'react-icons-kit'
+import { ic_home } from 'react-icons-kit/md/ic_home'
+import { ic_settings_applications } from 'react-icons-kit/md/ic_settings_applications'
+
 import { Services, Storages } from 'electron-shell-services'
 import { Components, Views } from 'electron-shell-ui'
 
@@ -115,6 +119,11 @@ class Shell extends Reflux.Component {
    * @return {type}  description
    */
   render() {
+    let routes = [
+      { href: "/", icon: ic_home, name: "Home" },
+      { href: "/settings/Home", icon: ic_settings_applications, name: "Settings" }
+    ]
+
     return (
       <div style={[WindowStyle]}>
         <TitleBar platform={this.config.platform} title={this.state.title}
@@ -122,7 +131,7 @@ class Shell extends Reflux.Component {
                   minimizeHandler={this.minimizeApp.bind(this)} />
         <IntlProvider locale={this.state.locale}>
           <BrowserRouter>
-            <MainLayout title={this.state.name}>
+            <MainLayout title={this.state.name} routes={routes}>
               <Switch>
                 <Route path="/settings" component={SettingsManagerUI} />
                 <Route path="/settings/:app" component={SettingsManagerUI} />
