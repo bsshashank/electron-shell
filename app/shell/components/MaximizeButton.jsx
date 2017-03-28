@@ -9,9 +9,9 @@ import { winButtonStyle, winIconStyle,
 /**
  * Renders the os-specific maximize button in the titlebar of the MainWindow
  * @param {string} platform     the current OS we are running on
- * @param {React.EventHandler} clickHandler the function handling the click event
+ * @param {EventHandler} clickHandler the function handling the click event
  */
-const MaximizeButton = ({ platform, clickHandler }) => {
+const MaximizeButton = ({ platform, clickHandler }: { platform: string, clickHandler: EventHandler }) => {
 
   var btnStyles = []
   var icon = {}
@@ -38,11 +38,6 @@ const MaximizeButton = ({ platform, clickHandler }) => {
       {icon}
     </a>
   )
-}
-
-MaximizeButton.propTypes = {
-  clickHandler: React.PropTypes.func.isRequired,
-  platform: React.PropTypes.string.isRequired
 }
 
 export default Radium(MaximizeButton)

@@ -152,7 +152,7 @@ const startup = (args:Array<string>) => {
    *
    * @returns
    */
-  app.sysConfig = function() {
+  app.sysConfig = (): Object => {
 
     const appName = app.getName()
     const appVersion = app.getVersion()
@@ -188,14 +188,14 @@ const startup = (args:Array<string>) => {
    *
    * @returns
    */
-  app.getMainWindow = function() {
+  app.getMainWindow = (): BrowserWindow => {
     return mainWindow
   }
 
   /**
    *
    */
-  app.close = function() {
+  app.close = (): void => {
     if (mainWindow) {
       mainWindow.close()
     }
@@ -205,7 +205,7 @@ const startup = (args:Array<string>) => {
   /**
    *
    */
-  app.toggleFullscreen = function() {
+  app.toggleFullscreen = (): void => {
     if (mainWindow) {
       mainWindow.setFullScreen(!mainWindow.isFullScreen())
     }
@@ -214,7 +214,7 @@ const startup = (args:Array<string>) => {
   /**
    *
    */
-  app.minimizeAppToSysTray = function() {
+  app.minimizeAppToSysTray = (): void => {
     trayIcon = new Tray(path.join(__dirname, 'assets', 'boilerplate_tray.png'))
     trayIcon.setToolTip('App is running in background mode.')
     trayIcon.on('click', () => {

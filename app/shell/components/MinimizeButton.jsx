@@ -9,9 +9,9 @@ import { winButtonStyle, winIconStyle,
 /**
  * Renders the OS-specific minimize button in the titlebar of the MainWindow
  * @param {string} platform     the current OS we are running on
- * @param {React.EventHandler} clickHandler the function handling the click event
+ * @param {EventHandler} clickHandler the function handling the click event
  */
-const MinimizeButton = ({ platform, clickHandler }) => {
+const MinimizeButton = ({ platform, clickHandler }: { platform: string, clickHandler: EventHandler }) => {
 
   var btnStyles = []
   var icon = {}
@@ -37,11 +37,6 @@ const MinimizeButton = ({ platform, clickHandler }) => {
       {icon}
     </a>
   )
-}
-
-MinimizeButton.propTypes = {
-  clickHandler: React.PropTypes.func.isRequired,
-  platform: React.PropTypes.string.isRequired
 }
 
 export default Radium(MinimizeButton)

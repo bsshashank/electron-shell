@@ -34,6 +34,13 @@ class Shell extends Reflux.Component {
   extensionManager: IExtensionManager
   settingsManager: ISettingsManager
 
+  props: {
+    config: ApplicationConfig,
+    closeHandler: Function,
+    fullScreenHandler: Function,
+    minimizeHandler: Function
+  }
+
   /**
    * Creates an instance of Shell.
    *
@@ -53,8 +60,8 @@ class Shell extends Reflux.Component {
     this.store = new ShellStore(this.config, this.docDB)
     this.store.initialize().then(() => {
       ShellActions.mountActiveExtensions()
-    }).catch((error) => {
-
+    }).catch((err) => {
+      console.log(err.toString())
     })
   }
 
@@ -78,7 +85,7 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  minimizeApp () : void {
+  minimizeApp(): void {
     this.props.minimizeHandler()
   }
 
@@ -87,8 +94,8 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  toggleFullScreen () : void {
-   this.props.fullScreenHandler()
+  toggleFullScreen(): void {
+    this.props.fullScreenHandler()
   }
 
   /**
@@ -96,7 +103,7 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  closeApp () : void {
+  closeApp(): void {
     this.docDB.save({ event: 'closed' }).then(() => {
      this.props.closeHandler()
     })
@@ -107,7 +114,7 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  render () {
+  render() {
     return (
       <div style={[WindowStyle]}>
         <TitleBar platform={this.config.platform} title={this.state.title}
@@ -115,7 +122,7 @@ class Shell extends Reflux.Component {
                   minimizeHandler={this.minimizeApp.bind(this)} />
         <IntlProvider locale={this.state.locale}>
           <BrowserRouter>
-            <MainLayout />
+            <MainLayout title={this.state.name} />
           </BrowserRouter>
         </IntlProvider>
       </div>
@@ -129,13 +136,6 @@ Shell.childContextTypes = {
   graphDatabase: React.PropTypes.object.isRequired,
   sqlDatabase: React.PropTypes.object.isRequired,
   fileStorage: React.PropTypes.object.isRequired
-}
-
-Shell.propTypes = {
-  config: React.PropTypes.object.isRequired,
-  closeHandler: React.PropTypes.func.isRequired,
-  fullScreenHandler: React.PropTypes.func.isRequired,
-  minimizeHandler: React.PropTypes.func.isRequired
 }
 
 export default Radium(Shell)

@@ -9,9 +9,9 @@ import { winButtonStyle, winIconStyle,
 /**
  * Renders the os-specific close button to the MainWindow
  * @param {string} platform     the current OS we are running on
- * @param {React.EventHandler} clickHandler the function handling the click event
+ * @param {EventHandler} clickHandler the function handling the click event
  */
-const CloseButton = ({ platform, clickHandler }) => {
+const CloseButton = ({ platform, clickHandler }: { platform: string, clickHandler: EventHandler }) => {
 
   var btnStyles = []
   var icon = {}
@@ -37,11 +37,6 @@ const CloseButton = ({ platform, clickHandler }) => {
       {icon}
     </a>
   )
-}
-
-CloseButton.propTypes = {
-  clickHandler: React.PropTypes.func.isRequired,
-  platform: React.PropTypes.string.isRequired
 }
 
 export default Radium(CloseButton)

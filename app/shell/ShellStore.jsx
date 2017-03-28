@@ -8,6 +8,10 @@ import type { ApplicationConfig, IDocumentDatabase } from 'electron-shell'
 import viewSpecs from './config/views.json'
 import initialData from './config/data.json'
 
+/**
+ * Stores shell related configuration information
+ * @type {[type]}
+ */
 class ShellStore extends Reflux.Store {
 
   config: ApplicationConfig
@@ -19,13 +23,15 @@ class ShellStore extends Reflux.Store {
     this.config = appConfig
     this.docDB = docDB
     this.listenables = ShellActions
-    
+
     this.state = {
       initialized: false,
       extensions: [],
       activeModule: "Home",
       locale: this.config.defaultLocale,
-      title: `${this.config.app.name} ${this.config.app.version}`
+      title: `${this.config.app.name} ${this.config.app.version}`,
+      name: this.config.app.name,
+      version: this.config.app.version
     }
   }
 
@@ -49,7 +55,7 @@ class ShellStore extends Reflux.Store {
 
   onMountActiveExtensions() {
 
-    if (!this.state.initialize)
+    if (!this.state.initialized)
       throw 'ERR_NOT_INITIALIZED'
 
     let loading = [
