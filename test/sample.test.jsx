@@ -5,5 +5,5 @@ it('calculates 2 + 2', () => {
 })
 
 it('fails with 2 + 2', () => {
-  expect(2 + 2).toNotBe(4)
+  expect(2 + 2).not.toBe(4)
 })
