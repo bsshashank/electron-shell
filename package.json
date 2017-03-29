@@ -25,13 +25,21 @@
       "react"
     ],
     "plugins": [
-      ["react-intl", {
-        "messagesDir": "./build/translations",
-        "enforceDescriptions": true
-      }],
+      [
+        "react-intl",
+        {
+          "messagesDir": "./build/translations",
+          "enforceDescriptions": true
+        }
+      ],
       "babel-plugin-transform-flow-strip-types",
       "transform-object-rest-spread"
     ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   },
   "build": {
     "appId": "com.appelgriebsch.electron-shell",
@@ -85,6 +93,7 @@
     "start": "npm run compile && cross-env DEBUG=1 npm --prefix app/ start",
     "compile": "babel --ignore node_modules/ --compact true --source-maps inline --minified --extensions .jsx app/ -d app/",
     "prune": "cd app && npm prune --production",
+    "test": "jest",
     "pre-build": "npm run -s compile && npm run -s prune && npm run -s build",
     "build": "npm run -s build-linux || npm run -s build-mac || npm run -s build-win",
     "build-linux": "npm run pre-build && build --x64 --linux",
@@ -96,6 +105,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
+    "babel-jest": "^19.0.0",
     "babel-plugin-react-intl": "^2.3.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -104,6 +114,7 @@
     "cross-env": "^3.2.3",
     "docdash": "^0.4.0",
     "electron-builder": "^15.1.1",
+    "jest-cli": "^19.0.2",
     "jsdoc": "^3.4.3",
     "jsdoc-babel": "^0.3.0",
     "standard": "^9.0.0"
