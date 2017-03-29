@@ -1,9 +1,9 @@
 [submodule "lib"]
-	path = lib
+	path = app/lib
 	url = git@github.com:appelgriebsch/electron-shell-lib
 [submodule "services"]
-	path = services
+	path = app/services
 	url = git@github.com:appelgriebsch/electron-shell-services
 [submodule "ui"]
-	path = ui
+	path = app/ui
 	url = git@github.com:appelgriebsch/electron-shell-ui

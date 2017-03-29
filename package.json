@@ -47,7 +47,10 @@
     "files": [
       "**/*",
       "!**/*.jsx",
-      "!plugins/**/*"
+      "!plugins/**/*",
+      "!lib/**/*",
+      "!services/**/*",
+      "!ui/**/*"
     ],
     "dmg": {
       "iconSize": 80,
@@ -91,15 +94,11 @@
   "scripts": {
     "postinstall": "cd app && npm install --no-optional",
     "start": "npm run compile && npm run copy && cross-env DEBUG=1 npm --prefix app/ start",
-    "compile": "npm run -s compile-lib && npm run -s compile-services && npm run -s compile-ui && npm run -s compile-app",
-    "compile-app": "babel --ignore node_modules/ --compact true --source-maps inline --minified --extensions .jsx app/ -d app/",
-    "compile-lib": "babel --ignore node_modules/ --compact true --source-maps inline --minified --extensions .jsx lib/ -d lib/",
-    "compile-services": "babel --ignore node_modules/ --compact true --source-maps inline --minified --extensions .jsx services/ -d services/",
-    "compile-ui": "babel --ignore node_modules/ --compact true --source-maps inline --minified --extensions .jsx ui/ -d ui/",
+    "compile": "babel --ignore node_modules/ --compact true --source-maps inline --minified --extensions .jsx app/ -d app/",
     "copy": "npm run -s copy-lib && npm run -s copy-services && npm run -s copy-ui",
-    "copy-lib": "cp -R lib/ app/node_modules/electron-shell-lib/",
-    "copy-services": "cp -R services/ app/node_modules/electron-shell-services/",
-    "copy-ui": "cp -R ui/ app/node_modules/electron-shell-ui/",
+    "copy-lib": "cp -R app/lib/ app/node_modules/electron-shell-lib/",
+    "copy-services": "cp -R app/services/ app/node_modules/electron-shell-services/",
+    "copy-ui": "cp -R app/ui/ app/node_modules/electron-shell-ui/",
     "prune": "cd app && npm prune --production",
     "test": "jest",
     "pre-build": "npm run -s compile && npm run -s prune && npm run -s build",
