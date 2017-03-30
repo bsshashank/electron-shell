@@ -114,7 +114,7 @@ const startup = (args:Array<string>) => {
   // adds debug features like hotkeys for triggering dev tools and reload
   let debugOptions = {}
 
-  if (process.env.DEBUG === "1") {
+  if (process.env.DEBUG === '1') {
     debugOptions = { enabled: true, showDevTools: 'bottom' }
     electronDebug(debugOptions)
   }
@@ -138,7 +138,7 @@ const startup = (args:Array<string>) => {
     if (!mainWindow) {
       mainWindow = createMainWindow()
     }
-    if (process.env.DEBUG === "1") {
+    if (process.env.DEBUG === '1') {
       const electronDevTools = require('electron-devtools-installer')
       electronDevTools.default(electronDevTools.REACT_DEVELOPER_TOOLS)
       .then((name) => {

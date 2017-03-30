@@ -29,11 +29,12 @@ class ShellStore extends Reflux.Store {
     this.state = {
       initialized: false,
       extensions: [],
-      defaultModule: "Home",
+      defaultModule: 'Home',
       locale: this.config.defaultLocale,
       title: `${this.config.app.name} ${this.config.app.version}`,
       name: this.config.app.name,
-      version: this.config.app.version
+      version: this.config.app.version,
+      translations: {}
     }
 
     this.setNewLocale(this.state.locale)
@@ -46,7 +47,13 @@ class ShellStore extends Reflux.Store {
         let initializing = initialData.map(d => this.docDB.save(d))
         return Promise.all(initializing)
       }).then(() => {
-        this.setState({ initialized: true })
+        return this.docDB.query('shell/translations', { key: this.state.locale, include_docs: true })
+      }).then((translations) => {
+        let messages = {}
+        translations.rows.forEach((row) => {
+          messages[row.id] = row.doc.translation || row.doc.defaultMessage
+        })
+        this.setState({ initialized: true, translations: messages })
         resolve({})
       }).catch((error) => {
         this.setState({ initialized: false })

@@ -120,28 +120,38 @@ class Shell extends Reflux.Component {
    */
   render() {
     let routes = [
-      { href: "/", icon: ic_home, name: "Home" },
-      { href: "/settings", icon: ic_settings_applications, name: "Settings" }
+      { href: '/', icon: ic_home, name: 'Home' },
+      { href: '/settings', icon: ic_settings_applications, name: 'Settings' }
     ]
 
-    return (
-      <div style={[WindowStyle]}>
-        <TitleBar platform={this.config.platform} title={this.state.title}
-                  closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
-                  minimizeHandler={this.minimizeApp.bind(this)} />
-        <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.translations}>
-          <BrowserRouter>
-            <MainLayout title={this.state.name} routes={routes}>
-              <Switch>
-                <Route path="/settings" component={SettingsManagerUI} />
-                <Route path="/settings/:app" component={SettingsManagerUI} />
-                <Route component={Home} />
-              </Switch>
-            </MainLayout>
-          </BrowserRouter>
-        </IntlProvider>
-      </div>
-    )
+    if (!this.state.initialized) {
+      return (
+        <div style={[WindowStyle]}>
+          <TitleBar platform={this.config.platform} title={this.state.title}
+                    closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
+                    minimizeHandler={this.minimizeApp.bind(this)} />
+        </div>
+      )
+    } else {
+      return (
+        <div style={[WindowStyle]}>
+          <TitleBar platform={this.config.platform} title={this.state.title}
+                    closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
+                    minimizeHandler={this.minimizeApp.bind(this)} />
+          <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.translations}>
+            <BrowserRouter>
+              <MainLayout title={this.state.name} routes={routes}>
+                <Switch>
+                  <Route path='/settings' component={SettingsManagerUI} />
+                  <Route path='/settings/:app' component={SettingsManagerUI} />
+                  <Route component={Home} />
+                </Switch>
+              </MainLayout>
+            </BrowserRouter>
+          </IntlProvider>
+        </div>
+      )
+    }
   }
 }
 
