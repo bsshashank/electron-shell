@@ -121,7 +121,7 @@ class Shell extends Reflux.Component {
   render() {
     let routes = [
       { href: "/", icon: ic_home, name: "Home" },
-      { href: "/settings/Home", icon: ic_settings_applications, name: "Settings" }
+      { href: "/settings", icon: ic_settings_applications, name: "Settings" }
     ]
 
     return (

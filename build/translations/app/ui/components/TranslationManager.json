@@ -1,0 +1,7 @@
+[
+  {
+    "id": "app.settings.transmanager.title",
+    "description": "The title in the translation manager settings view",
+    "defaultMessage": "Translation Manager"
+  }
+]

@@ -1,0 +1,7 @@
+[
+  {
+    "id": "app.settings.general.title",
+    "description": "The title in the general settings view",
+    "defaultMessage": "General Settings"
+  }
+]

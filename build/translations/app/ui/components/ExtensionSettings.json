@@ -1,0 +1,7 @@
+[
+  {
+    "id": "app.settings.extsettings.title",
+    "description": "The title in the extension settings view",
+    "defaultMessage": "Extension Settings"
+  }
+]

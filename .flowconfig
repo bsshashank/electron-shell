@@ -5,8 +5,9 @@
 [include]
 
 [libs]
+./app/node_modules/electron-shell-lib/types/
 ./types/
-./lib/types/
+./app/lib/types/
 
 [options]
 unsafe.enable_getters_and_setters=true
