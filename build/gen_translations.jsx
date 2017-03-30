@@ -3,7 +3,7 @@
 import glob from 'glob-promise'
 import fs from 'fs'
 
-glob(__dirname + '/app/**/*.json')
+glob(__dirname + '/translations/**/*.json')
   .then((translations) => {
     let docs = []
     translations.forEach((translation) => {
@@ -20,7 +20,7 @@ glob(__dirname + '/app/**/*.json')
         docs.push(doc)
       })
     })
-    fs.writeFileSync('app/shell/config/data.json', JSON.stringify(docs))
+    fs.writeFileSync('app/assets/msgs/en-US.json', JSON.stringify(docs))
   })
   .catch((err) => {
     console.log(err)
