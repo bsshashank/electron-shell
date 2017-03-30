@@ -1,0 +1,17 @@
+[
+  {
+    "id": "app.home.nodefault.title",
+    "description": "Shows the title that the default startup module is not set.",
+    "defaultMessage": "No default module found"
+  },
+  {
+    "id": "app.home.nodefault.subtitle",
+    "description": "Shows an explanative subtitle for the case that no default startup module is set.",
+    "defaultMessage": "Click the button to go to the application settings"
+  },
+  {
+    "id": "app.home.btn.settings",
+    "description": "The button label that links from the home view to the settings manager.",
+    "defaultMessage": "Settings"
+  }
+]
