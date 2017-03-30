@@ -37,7 +37,6 @@ class ShellStore extends Reflux.Store {
       translations: {}
     }
 
-    this.setNewLocale(this.state.locale)
   }
 
   initialize() : Promise<Object> {
@@ -47,13 +46,10 @@ class ShellStore extends Reflux.Store {
         let initializing = initialData.map(d => this.docDB.save(d))
         return Promise.all(initializing)
       }).then(() => {
-        return this.docDB.query('shell/translations', { key: this.state.locale, include_docs: true })
+        return this.loadTranslations(this.state.locale)
       }).then((translations) => {
-        let messages = {}
-        translations.rows.forEach((row) => {
-          messages[row.id] = row.doc.translation || row.doc.defaultMessage
-        })
-        this.setState({ initialized: true, translations: messages })
+        this.setNewLocale(this.state.locale)
+        this.setState({ initialized: true, translations: translations })
         resolve({})
       }).catch((error) => {
         this.setState({ initialized: false })
@@ -109,6 +105,23 @@ class ShellStore extends Reflux.Store {
 
   onUpdateSettings(settings) {
 
+  }
+
+  loadTranslations(locale:string): Promise<Object> {
+    var p = new Promise((resolve, reject) => {
+      this.docDB.query('shell/translations', { key: locale, include_docs: true })
+        .then((translations) => {
+          let messages = {}
+          translations.rows.forEach((row) => {
+            messages[row.id] = row.doc.translation || row.doc.defaultMessage
+          })
+          resolve(messages)
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+    return p
   }
 
   setNewLocale(locale:string) {

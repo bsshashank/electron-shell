@@ -3,7 +3,7 @@
 import React from 'react'
 import Radium from 'radium'
 
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, defineMessages } from 'react-intl';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 
 import Icon from 'react-icons-kit'
@@ -119,9 +119,24 @@ class Shell extends Reflux.Component {
    * @return {type}  description
    */
   render() {
-    let routes = [
-      { href: '/', icon: ic_home, name: 'Home' },
-      { href: '/settings', icon: ic_settings_applications, name: 'Settings' }
+
+    const messages = defineMessages({
+      'app.mnu.Home': {
+        id: 'app.mnu.Home',
+        description: 'The menu item for the Home extension',
+        defaultMessage: 'Home'
+      },
+      'app.mnu.Settings': {
+        id: 'app.mnu.Settings',
+        description: 'The menu item for the Settings extension',
+        defaultMessage: 'Settings'
+      }
+    })
+
+    let menuConfig = [
+      { type: 'link', href: '/', icon: ic_home, name: messages['app.mnu.Home'] },
+      { type: 'spacer' },
+      { type: 'link', href: '/settings', icon: ic_settings_applications, name: messages['app.mnu.Settings'] }
     ]
 
     if (!this.state.initialized) {
@@ -140,7 +155,7 @@ class Shell extends Reflux.Component {
                     minimizeHandler={this.minimizeApp.bind(this)} />
           <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.translations}>
             <BrowserRouter>
-              <MainLayout title={this.state.name} routes={routes}>
+              <MainLayout title={this.state.name} menu={menuConfig}>
                 <Switch>
                   <Route path='/settings' component={SettingsManagerUI} />
                   <Route path='/settings/:app' component={SettingsManagerUI} />
