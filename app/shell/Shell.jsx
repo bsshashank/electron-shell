@@ -129,7 +129,7 @@ class Shell extends Reflux.Component {
         <TitleBar platform={this.config.platform} title={this.state.title}
                   closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
                   minimizeHandler={this.minimizeApp.bind(this)} />
-        <IntlProvider locale={this.state.locale}>
+        <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.translations}>
           <BrowserRouter>
             <MainLayout title={this.state.name} routes={routes}>
               <Switch>

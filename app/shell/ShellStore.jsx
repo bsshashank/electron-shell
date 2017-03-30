@@ -3,6 +3,8 @@
 import Reflux from 'reflux'
 import ShellActions from './ShellActions'
 
+import { addLocaleData } from 'react-intl'
+
 import type { ApplicationConfig, IDocumentDatabase } from 'electron-shell'
 
 import viewSpecs from './config/views.json'
@@ -27,12 +29,14 @@ class ShellStore extends Reflux.Store {
     this.state = {
       initialized: false,
       extensions: [],
-      activeModule: "Home",
+      defaultModule: "Home",
       locale: this.config.defaultLocale,
       title: `${this.config.app.name} ${this.config.app.version}`,
       name: this.config.app.name,
       version: this.config.app.version
     }
+
+    this.setNewLocale(this.state.locale)
   }
 
   initialize() : Promise<Object> {
@@ -91,12 +95,28 @@ class ShellStore extends Reflux.Store {
 
   }
 
-  onSwitchLocale(locale) {
-
+  onSwitchLocale(locale:string) {
+    this.setNewLocale(locale)
+    this.setState({ locale: locale })
   }
 
   onUpdateSettings(settings) {
 
+  }
+
+  setNewLocale(locale:string) {
+    const idx = locale.indexOf('-')
+    if (idx !== -1) {
+      locale = locale.substr(0, idx)
+    }
+    try {
+      const locale_data = require(`react-intl/locale-data/${locale}`)
+      addLocaleData([...locale_data])
+    }
+    catch(err) {
+      console.log(`Could not load locale ${locale}`)
+      throw 'ERR_SWITCH_LOCALE'
+    }
   }
 }
 
