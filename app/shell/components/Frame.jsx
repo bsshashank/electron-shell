@@ -51,13 +51,13 @@ const Frame = ({ intl, platform, appName, appVersion, closeHandler, maximizeHand
     }
   })
 
-  let menuConfig = [
-    { type: 'link', href: '/', icon: ic_home, name: messages.appMnuHome },
-    { type: 'spacer' },
-    { type: 'link', href: '/settings', icon: ic_settings_applications, name: messages.appMnuSettings }
-  ]
-
   const {formatMessage} = intl
+
+  let menuConfig = [
+    { type: 'link', href: '/', icon: ic_home, name: formatMessage(messages.appMnuHome) },
+    { type: 'spacer' },
+    { type: 'link', href: '/settings', icon: ic_settings_applications, name: formatMessage(messages.appMnuSettings) }
+  ]
 
   return (
     <div style={[WindowStyle]}>
