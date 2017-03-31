@@ -4,16 +4,16 @@ import React from 'react'
 import Radium from 'radium'
 
 import Icon from 'react-icons-kit'
-import {ic_home} from 'react-icons-kit/md/ic_home'
-import {ic_settings_applications} from 'react-icons-kit/md/ic_settings_applications'
+import { ic_home } from 'react-icons-kit/md/ic_home'
+import { ic_settings_applications } from 'react-icons-kit/md/ic_settings_applications'
 
-import {defineMessages, intlShape, injectIntl} from 'react-intl'
-import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom'
+import { defineMessages, intlShape, injectIntl } from 'react-intl'
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 
-import {Views} from 'electron-shell-ui'
-const {MainLayout, Home, SettingsManager: SettingsManagerUI} = Views
+import { Views } from 'electron-shell-ui'
+const { MainLayout, Home, SettingsManager: SettingsManagerUI } = Views
 
-import {WindowStyle} from '../styles/ControlStyles'
+import { WindowStyle } from '../styles/ControlStyles'
 import TitleBar from './TitleBar'
 
 /**
@@ -29,22 +29,22 @@ import TitleBar from './TitleBar'
 const Frame = ({ intl, platform, appName, appVersion, closeHandler, maximizeHandler, minimizeHandler }: { intl: intlShape, platform: string, appName: string, appVersion: string, closeHandler: Function, maximizeHandler: Function, minimizeHandler: Function }) => {
 
   const messages = defineMessages({
-    'app.title': {
+    appTitle: {
       id: 'app.title',
       description: 'The application title in the window',
       defaultMessage: '{pkgname} {pkgversion}'
     },
-    'app.mnu.title': {
+    appMnuTitle: {
       id: 'app.mnu.title',
       description: 'The application name in the menu bar',
       defaultMessage: '{pkgname}'
     },
-    'app.mnu.Home': {
+    appMnuHome: {
       id: 'app.mnu.Home',
       description: 'The menu item for the Home extension',
       defaultMessage: 'Home'
     },
-    'app.mnu.Settings': {
+    appMnuSettings: {
       id: 'app.mnu.Settings',
       description: 'The menu item for the Settings extension',
       defaultMessage: 'Settings'
@@ -52,29 +52,19 @@ const Frame = ({ intl, platform, appName, appVersion, closeHandler, maximizeHand
   })
 
   let menuConfig = [
-    {
-      type: 'link',
-      href: '/',
-      icon: ic_home,
-      name: messages['app.mnu.Home']
-    }, {
-      type: 'spacer'
-    }, {
-      type: 'link',
-      href: '/settings',
-      icon: ic_settings_applications,
-      name: messages['app.mnu.Settings']
-    }
+    { type: 'link', href: '/', icon: ic_home, name: messages.appMnuHome },
+    { type: 'spacer' },
+    { type: 'link', href: '/settings', icon: ic_settings_applications, name: messages.appMnuSettings }
   ]
 
   const {formatMessage} = intl
 
   return (
     <div style={[WindowStyle]}>
-      <TitleBar platform={platform} title={formatMessage(messages['app.title'], { pkgname: appName, pkgversion: appVersion })}
+      <TitleBar platform={platform} title={formatMessage(messages.appTitle, { pkgname: appName, pkgversion: appVersion })}
                 closeHandler={closeHandler} maximizeHandler={maximizeHandler} minimizeHandler={minimizeHandler}/>
       <BrowserRouter>
-        <MainLayout title={formatMessage(messages['app.mnu.title'], {pkgname: appName})} menu={menuConfig}>
+        <MainLayout title={formatMessage(messages.appMnuTitle, { pkgname: appName })} menu={menuConfig}>
           <Switch>
             <Route path='/settings' component={SettingsManagerUI}/>
             <Route path='/settings/:app' component={SettingsManagerUI}/>
