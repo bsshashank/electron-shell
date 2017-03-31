@@ -6,13 +6,13 @@ import Reflux from 'reflux'
 import { IntlProvider } from 'react-intl'
 
 import { Actions, Storages, Stores } from 'electron-shell-services'
-const { ActivityService, TranslationManager } = Actions
+const { ActivityService, ExtensionManager, SettingManager, TranslationManager } = Actions
 const { DocumentDatabase, FileStorage, SqlDatabase, TripleStore } = Storages
-const { ActivityStore, TranslationStore } = Stores
+const { ActivityStore, ExtensionStore, SettingStore, TranslationStore } = Stores
 
 import type { ApplicationConfig,
               ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage,
-              IActivityService, ITanslationManager } from 'electron-shell'
+              IActivityService, IExtensionManager, ISettingManager, ITanslationManager } from 'electron-shell'
 
 import Frame from './components/Frame'
 
@@ -29,6 +29,8 @@ class Shell extends Reflux.Component {
   fileStore : IFileStorage
 
   activityService: IActivityService
+  extensionManager: IExtensionManager
+  settingManager: ISettingManager
   translationManager: ITanslationManager
 
   props : {
@@ -54,10 +56,25 @@ class Shell extends Reflux.Component {
     this.fileStore = new FileStorage(this.config)
 
     this.activityService = ActivityService
+    this.extensionManager = ExtensionManager
+    this.settingManager = SettingManager
     this.translationManager = TranslationManager
-    this.stores = [ TranslationStore ]
 
-    this.translationManager.switchLocale(this.config.defaultLocale, this.docDB)
+    this.stores = [ ExtensionStore, SettingStore, TranslationStore ]
+
+    this.fileStore.iterate(this.config.paths.appPath, 'assets/msgs/**.json').then((languageFiles) => {
+      let importJobs = languageFiles.map((languageFile) => {
+        let content = require(`${languageFile.folder}/${languageFile.name}${languageFile.ext}`)
+        let p = new Promise((resolve, reject) => {
+          this.translationManager.import(languageFile.name, content, this.docDB)
+          resolve({})
+        })
+        return p
+      })
+      Promise.all(importJobs).then(() => {
+        this.translationManager.switchLocale(this.config.defaultLocale, this.docDB)
+      })
+    })
   }
 
   /**
