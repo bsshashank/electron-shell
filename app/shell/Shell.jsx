@@ -39,8 +39,10 @@ class Shell extends Reflux.Component {
   }
 
   /**
-   * Creates an instance of Shell.
-   *
+   * [constructor description]
+   * @param  {[type]} props   [description]
+   * @param  {[type]} context [description]
+   * @return {[type]}         [description]
    */
   constructor(props, context) {
     super(props, context)
@@ -109,7 +111,6 @@ class Shell extends Reflux.Component {
    * @return {type}  description
    */
   render() {
-    console.log(this.state)
     return (
       <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.translations}>
         <Frame appName={this.config.app.name} appVersion={this.config.app.version} platform={this.config.platform}
