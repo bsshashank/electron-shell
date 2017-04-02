@@ -5,13 +5,13 @@ import Radium from 'radium'
 
 import Icon from 'react-icons-kit'
 import { ic_home } from 'react-icons-kit/md/ic_home'
-import { ic_settings_applications } from 'react-icons-kit/md/ic_settings_applications'
+import { ic_settings } from 'react-icons-kit/md/ic_settings'
 
 import { defineMessages, intlShape, injectIntl } from 'react-intl'
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom'
 
 import { Views } from 'electron-shell-ui'
-const { MainLayout, Home, SettingsManager: SettingsManagerUI } = Views
+const { MainLayout, Home, SettingsManager } = Views
 
 import { WindowStyle } from '../styles/ControlStyles'
 import TitleBar from './TitleBar'
@@ -51,24 +51,23 @@ const Frame = ({ intl, platform, appName, appVersion, closeHandler, maximizeHand
     }
   })
 
-  const {formatMessage} = intl
+  const { formatMessage } = intl
 
   let menuConfig = [
     { type: 'link', href: '/', icon: ic_home, name: formatMessage(messages.appMnuHome) },
     { type: 'spacer' },
-    { type: 'link', href: '/settings', icon: ic_settings_applications, name: formatMessage(messages.appMnuSettings) }
+    { type: 'link', href: '/settings', icon: ic_settings, name: formatMessage(messages.appMnuSettings) }
   ]
 
   return (
     <div style={[WindowStyle]}>
       <TitleBar platform={platform} title={formatMessage(messages.appTitle, { pkgname: appName, pkgversion: appVersion })}
-                closeHandler={closeHandler} maximizeHandler={maximizeHandler} minimizeHandler={minimizeHandler}/>
+                closeHandler={closeHandler} maximizeHandler={maximizeHandler} minimizeHandler={minimizeHandler} />
       <BrowserRouter>
         <MainLayout title={formatMessage(messages.appMnuTitle, { pkgname: appName })} menu={menuConfig}>
           <Switch>
-            <Route path='/settings' component={SettingsManagerUI}/>
-            <Route path='/settings/:app' component={SettingsManagerUI}/>
-            <Route component={Home}/>
+            <Route path='/settings' component={SettingsManager} />
+            <Route component={Home} />
           </Switch>
         </MainLayout>
       </BrowserRouter>

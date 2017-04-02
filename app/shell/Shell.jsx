@@ -33,6 +33,8 @@ class Shell extends Reflux.Component {
   settingManager: ISettingManager
   translationManager: ITanslationManager
 
+  translationStore: TranslationStore
+
   props : {
     config: ApplicationConfig,
     closeHandler: Function,
@@ -59,9 +61,12 @@ class Shell extends Reflux.Component {
     this.extensionManager = ExtensionManager
     this.settingManager = SettingManager
     this.translationManager = TranslationManager
+    this.translationStore = Reflux.initStore(TranslationStore)
 
     this.stores = [ ExtensionStore, SettingStore, TranslationStore ]
+  }
 
+  componentDidMount() {
     this.fileStore.iterate(this.config.paths.appPath, 'assets/msgs/**.json').then((languageFiles) => {
       let importJobs = languageFiles.map((languageFile) => {
         let content = require(`${languageFile.folder}/${languageFile.name}${languageFile.ext}`)
@@ -89,7 +94,8 @@ class Shell extends Reflux.Component {
       graphDatabase: this.graphDB,
       sqlDatabase: this.sqlDB,
       fileStorage: this.fileStore,
-      translationManager: this.translationManager
+      translationManager: this.translationManager,
+      translationStore: this.translationStore
     }
   }
 
@@ -144,7 +150,8 @@ Shell.childContextTypes = {
   graphDatabase: React.PropTypes.object.isRequired,
   sqlDatabase: React.PropTypes.object.isRequired,
   fileStorage: React.PropTypes.object.isRequired,
-  translationManager: React.PropTypes.object.isRequired
+  translationManager: React.PropTypes.object.isRequired,
+  translationStore: React.PropTypes.object.isRequired
 }
 
 export default Radium(Shell)
