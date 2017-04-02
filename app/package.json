@@ -29,17 +29,17 @@
     "electron-shell-lib": "appelgriebsch/electron-shell-lib",
     "electron-shell-services": "appelgriebsch/electron-shell-services",
     "electron-shell-ui": "appelgriebsch/electron-shell-ui",
-    "radium": "^0.18.1",
+    "radium": "^0.18.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-intl": "^2.2.0",
+    "react-intl": "^2.2.3",
     "react-router-dom": "^4.0.0",
     "react-tap-event-plugin": "^2.0.1",
     "reflux": "^6.4.1"
   },
   "devDependencies": {
     "devtron": "^1.4.0",
-    "electron": "^1.6.1",
-    "spectron": "^3.6.0"
+    "electron": "^1.6.5",
+    "spectron": "^3.6.1"
   }
 }
