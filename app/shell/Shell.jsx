@@ -155,7 +155,7 @@ class Shell extends Reflux.Component {
    */
   render() {
     return (
-      <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.translations}>
+      <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.localeData.intl}>
         <Frame appName={this.config.app.name} appVersion={this.config.app.version} platform={this.config.platform}
           closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
           minimizeHandler={this.minimizeApp.bind(this)} />
