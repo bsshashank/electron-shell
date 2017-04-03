@@ -11,8 +11,9 @@ const { DocumentDatabase, FileStorage, SqlDatabase, TripleStore } = Storages
 const { ActivityStore, ExtensionStore, SettingStore, TranslationStore } = Stores
 
 import type { ApplicationConfig,
-              ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage,
-              IActivityService, IExtensionManager, ISettingManager, ITanslationManager } from 'electron-shell'
+  ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage,
+  IActivityService, IExtensionManager, ISettingManager, ITanslationManager
+} from 'electron-shell'
 
 import Frame from './components/Frame'
 
@@ -22,20 +23,23 @@ import Frame from './components/Frame'
  */
 class Shell extends Reflux.Component {
 
-  config : ApplicationConfig
-  sqlDB : ISqlDatabase
-  docDB : IDocumentDatabase
-  graphDB : ITripleStore
-  fileStore : IFileStorage
+  config: ApplicationConfig
+  sqlDB: ISqlDatabase
+  docDB: IDocumentDatabase
+  graphDB: ITripleStore
+  fileStore: IFileStorage
 
   activityService: IActivityService
   extensionManager: IExtensionManager
   settingManager: ISettingManager
   translationManager: ITanslationManager
 
+  activityStore: ActivityStore
+  extensionStore: ExtensionStore
+  settingStore: SettingStore
   translationStore: TranslationStore
 
-  props : {
+  props: {
     config: ApplicationConfig,
     closeHandler: Function,
     fullScreenHandler: Function,
@@ -61,23 +65,33 @@ class Shell extends Reflux.Component {
     this.extensionManager = ExtensionManager
     this.settingManager = SettingManager
     this.translationManager = TranslationManager
+
+    this.activityStore = Reflux.initStore(ActivityStore)
+    this.extensionStore = Reflux.initStore(ExtensionStore)
+    this.settingStore = Reflux.initStore(SettingStore)
     this.translationStore = Reflux.initStore(TranslationStore)
 
-    this.stores = [ ExtensionStore, SettingStore, TranslationStore ]
+    this.stores = [ActivityStore, ExtensionStore, SettingStore, TranslationStore]
   }
 
   componentDidMount() {
+
+    this.activityService.initialize(this.docDB)
+    this.extensionManager.initialize(this.fileStore, this.docDB)
+    this.settingManager.initialize(this.docDB)
+    this.translationManager.initialize(this.docDB)
+
     this.fileStore.iterate(this.config.paths.appPath, 'assets/msgs/**.json').then((languageFiles) => {
       let importJobs = languageFiles.map((languageFile) => {
         let content = require(`${languageFile.folder}/${languageFile.name}${languageFile.ext}`)
         let p = new Promise((resolve, reject) => {
-          this.translationManager.import(languageFile.name, content, this.docDB)
+          this.translationManager.import(languageFile.name, content)
           resolve({})
         })
         return p
       })
       Promise.all(importJobs).then(() => {
-        this.translationManager.switchLocale(this.config.defaultLocale, this.docDB)
+        this.translationManager.switchLocale(this.config.defaultLocale)
       })
     })
   }
@@ -94,7 +108,13 @@ class Shell extends Reflux.Component {
       graphDatabase: this.graphDB,
       sqlDatabase: this.sqlDB,
       fileStorage: this.fileStore,
+      activityService: this.activityService,
+      extensionManager: this.extensionManager,
+      settingManager: this.settingManager,
       translationManager: this.translationManager,
+      activityStore: this.activityStore,
+      extensionStore: this.extensionStore,
+      settingStore: this.settingStore,
       translationStore: this.translationStore
     }
   }
@@ -104,7 +124,7 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  minimizeApp() : void {
+  minimizeApp(): void {
     this.props.minimizeHandler()
   }
 
@@ -113,7 +133,7 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  toggleFullScreen() : void {
+  toggleFullScreen(): void {
     this.props.fullScreenHandler()
   }
 
@@ -122,8 +142,8 @@ class Shell extends Reflux.Component {
    *
    * @return {type}  description
    */
-  closeApp() : void {
-    this.docDB.save({event: 'closed'}).then(() => {
+  closeApp(): void {
+    this.docDB.save({ event: 'closed' }).then(() => {
       this.props.closeHandler()
     })
   }
@@ -137,8 +157,8 @@ class Shell extends Reflux.Component {
     return (
       <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.translations}>
         <Frame appName={this.config.app.name} appVersion={this.config.app.version} platform={this.config.platform}
-               closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
-               minimizeHandler={this.minimizeApp.bind(this)}/>
+          closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
+          minimizeHandler={this.minimizeApp.bind(this)} />
       </IntlProvider>
     )
   }
@@ -150,7 +170,13 @@ Shell.childContextTypes = {
   graphDatabase: React.PropTypes.object.isRequired,
   sqlDatabase: React.PropTypes.object.isRequired,
   fileStorage: React.PropTypes.object.isRequired,
+  activityService: React.PropTypes.object.isRequired,
+  extensionManager: React.PropTypes.object.isRequired,
+  settingManager: React.PropTypes.object.isRequired,
   translationManager: React.PropTypes.object.isRequired,
+  activityStore: React.PropTypes.object.isRequired,
+  extensionStore: React.PropTypes.object.isRequired,
+  settingStore: React.PropTypes.object.isRequired,
   translationStore: React.PropTypes.object.isRequired
 }
 
