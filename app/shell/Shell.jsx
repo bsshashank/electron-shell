@@ -12,7 +12,7 @@ const { ActivityStore, ExtensionStore, SettingStore, TranslationStore } = Stores
 
 import type { ApplicationConfig,
   ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage,
-  IActivityService, IExtensionManager, ISettingManager, ITanslationManager
+  IActivityService, IExtensionManager, ISettingManager, ITranslationManager
 } from 'electron-shell'
 
 import Frame from './components/Frame'
@@ -32,7 +32,7 @@ class Shell extends Reflux.Component {
   activityService: IActivityService
   extensionManager: IExtensionManager
   settingManager: ISettingManager
-  translationManager: ITanslationManager
+  translationManager: ITranslationManager
 
   activityStore: ActivityStore
   extensionStore: ExtensionStore
