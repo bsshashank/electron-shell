@@ -96,7 +96,11 @@ class Shell extends Reflux.Component {
           return this.translationManager.import.triggerAsync(fileName, content)
         })
         Promise.all(importJobs).then(() => {
-          this.translationManager.switchLocale(this.config.defaultLocale)
+          return this.translationManager.switchLocale.triggerAsync(this.config.defaultLocale)
+        }).then(() => {
+          return this.extensionManager.mountAll.triggerAsync()
+        }).catch((err) => {
+          console.log(err)
         })
       })
     })
