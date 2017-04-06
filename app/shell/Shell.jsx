@@ -3,6 +3,9 @@
 import React from 'react'
 import Radium from 'radium'
 import Reflux from 'reflux'
+
+import path from 'path'
+import glob from 'glob-promise'
 import { IntlProvider } from 'react-intl'
 
 import { Actions, Storages, Stores } from 'electron-shell-services'
@@ -76,22 +79,25 @@ class Shell extends Reflux.Component {
 
   componentDidMount() {
 
-    this.activityService.initialize(this.docDB)
-    this.extensionManager.initialize(this.fileStore, this.docDB)
-    this.settingManager.initialize(this.docDB)
-    this.translationManager.initialize(this.docDB)
+    let initPromises = [
+      this.activityService.initialize.triggerAsync(this.docDB),
+      this.extensionManager.initialize.triggerAsync(this.fileStore, this.docDB),
+      this.settingManager.initialize.triggerAsync(this.docDB),
+      this.translationManager.initialize.triggerAsync(this.docDB)
+    ]
 
-    this.fileStore.iterate(this.config.paths.appPath, 'assets/msgs/**.json').then((languageFiles) => {
-      let importJobs = languageFiles.map((languageFile) => {
-        let content = require(`${languageFile.folder}/${languageFile.name}${languageFile.ext}`)
-        let p = new Promise((resolve, reject) => {
-          this.translationManager.import(languageFile.name, content)
-          resolve({})
+    Promise.all(initPromises).then(() => {
+      const assetFolder = path.join(this.config.paths.appPath, 'assets/msgs/**.json')
+      glob(assetFolder).then((languageFiles) => {
+        let importJobs = languageFiles.map((languageFile) => {
+          const fileExt = path.extname(languageFile)
+          const fileName = path.basename(languageFile, fileExt)
+          let content = require(languageFile)
+          return this.translationManager.import.triggerAsync(fileName, content)
         })
-        return p
-      })
-      Promise.all(importJobs).then(() => {
-        this.translationManager.switchLocale(this.config.defaultLocale)
+        Promise.all(importJobs).then(() => {
+          this.translationManager.switchLocale(this.config.defaultLocale)
+        })
       })
     })
   }
