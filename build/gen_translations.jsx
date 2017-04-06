@@ -2,6 +2,7 @@
 
 import glob from 'glob-promise'
 import fs from 'fs'
+import appPackage from '../app/package.json'
 
 glob(__dirname + '/translations/**/*.json')
   .then((translations) => {
@@ -11,6 +12,7 @@ glob(__dirname + '/translations/**/*.json')
       messages.forEach((message) => {
         let doc = {
           "_id": message.id,
+          "version": appPackage.version,
           "description": message.description,
           "defaultMessage": message.defaultMessage,
           "translation": message.defaultMessage,

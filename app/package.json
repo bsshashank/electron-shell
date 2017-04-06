@@ -35,7 +35,8 @@
     "react-intl": "^2.2.3",
     "react-router-dom": "^4.0.0",
     "react-tap-event-plugin": "^2.0.1",
-    "reflux": "^6.4.1"
+    "reflux": "^6.4.1",
+    "reflux-promise": "^1.0.4"
   },
   "devDependencies": {
     "devtron": "^1.4.0",
