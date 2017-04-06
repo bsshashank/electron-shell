@@ -16,7 +16,7 @@ const { ActivityStore, ExtensionStore, SettingStore, TranslationStore } = Stores
 import type { ApplicationConfig,
   ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage,
   IActivityService, IExtensionManager, ISettingManager, ITranslationManager
-} from 'electron-shell'
+} from 'electron-shell-lib'
 
 import Frame from './components/Frame'
 
