@@ -81,9 +81,9 @@ class Shell extends Reflux.Component {
 
     let initPromises = [
       this.activityService.initialize.triggerAsync(this.docDB),
-      this.extensionManager.initialize.triggerAsync(this.fileStore, this.docDB),
       this.settingManager.initialize.triggerAsync(this.docDB),
-      this.translationManager.initialize.triggerAsync(this.docDB)
+      this.translationManager.initialize.triggerAsync(this.docDB),
+      this.extensionManager.initialize.triggerAsync(this.fileStore, this.docDB, this.settingManager, this.translationManager),
     ]
 
     Promise.all(initPromises).then(() => {
