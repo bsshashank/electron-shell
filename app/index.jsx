@@ -115,7 +115,7 @@ const startup = (args:Array<string>) => {
   let debugOptions = {}
 
   if (process.env.DEBUG === '1') {
-    debugOptions = { enabled: true, showDevTools: 'bottom' }
+    debugOptions = { enabled: true, showDevTools: 'undocked' }
     electronDebug(debugOptions)
   }
 
