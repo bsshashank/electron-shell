@@ -25,7 +25,17 @@ An electron shell project incl. PouchDB, React + NuclearJS, Metro UI library, ..
 
 ## Screenshot
 
-![screenshot](screenshot.png)
+### Main window
+![screenshot](docs/screenshot_main.png)
+
+### Settings
+![screenshot](docs/screenshot_gensettings.png)
+
+### Extension Gallery
+![screenshot](docs/screenshot_extensions.png)
+
+### Translation Manager
+![screenshot](docs/screenshot_translations.png)
 
 ## Extensions
 * extensions can be added as self-contained asar modules, please check the [HelloWorldModule](https://github.com/appelgriebsch/HelloWorldModule) for more information
