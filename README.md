@@ -1,5 +1,5 @@
 # electron-shell
-An electron shell project incl. PouchDB, React + NuclearJS, Metro UI library, ...
+An electron shell project incl. PouchDB, React + Reflux, Spectre.css library, ...
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 

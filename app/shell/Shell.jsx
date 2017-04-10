@@ -3,6 +3,7 @@
 import React from 'react'
 import Radium from 'radium'
 import Reflux from 'reflux'
+import { object } from 'prop-types'
 
 import path from 'path'
 import glob from 'glob-promise'
@@ -174,18 +175,18 @@ class Shell extends Reflux.Component {
 }
 
 Shell.childContextTypes = {
-  appConfig: React.PropTypes.object.isRequired,
-  documentDatabase: React.PropTypes.object.isRequired,
-  graphDatabase: React.PropTypes.object.isRequired,
-  sqlDatabase: React.PropTypes.object.isRequired,
-  activityService: React.PropTypes.object.isRequired,
-  extensionManager: React.PropTypes.object.isRequired,
-  settingManager: React.PropTypes.object.isRequired,
-  translationManager: React.PropTypes.object.isRequired,
-  activityStore: React.PropTypes.object.isRequired,
-  extensionStore: React.PropTypes.object.isRequired,
-  settingStore: React.PropTypes.object.isRequired,
-  translationStore: React.PropTypes.object.isRequired
+  appConfig: object.isRequired,
+  documentDatabase: object.isRequired,
+  graphDatabase: object.isRequired,
+  sqlDatabase: object.isRequired,
+  activityService: object.isRequired,
+  extensionManager: object.isRequired,
+  settingManager: object.isRequired,
+  translationManager: object.isRequired,
+  activityStore: object.isRequired,
+  extensionStore: object.isRequired,
+  settingStore: object.isRequired,
+  translationStore: object.isRequired
 }
 
 export default Radium(Shell)
