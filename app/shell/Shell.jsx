@@ -9,12 +9,14 @@ import path from 'path'
 import glob from 'glob-promise'
 import { IntlProvider } from 'react-intl'
 
+import { utils } from 'electron-shell-lib'
+
 import { Actions, Storages, Stores } from 'electron-shell-services'
 const { ActivityService, ExtensionManager, SettingManager, TranslationManager } = Actions
 const { DocumentDatabase, FileStorage, SqlDatabase, TripleStore } = Storages
 const { ActivityStore, ExtensionStore, SettingStore, TranslationStore } = Stores
 
-import type { ApplicationConfig,
+import type { ApplicationConfig, IExtension,
   ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage,
   IActivityService, IExtensionManager, ISettingManager, ITranslationManager
 } from 'electron-shell-lib'
@@ -164,11 +166,15 @@ class Shell extends Reflux.Component {
    * @return {type}  description
    */
   render() {
+    let activeExtensions = this.state.extensions.filter((e) => e.status === 'active')
+    let extensions = activeExtensions.map((e) => {
+      return utils.extensionLoader.tryLoadExtension(e.location, e.file)
+    })
     return (
       <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.localeData.intl}>
         <Frame appName={this.config.app.name} appVersion={this.config.app.version} platform={this.config.platform}
           closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
-          minimizeHandler={this.minimizeApp.bind(this)} />
+          minimizeHandler={this.minimizeApp.bind(this)} extensions={extensions}/>
       </IntlProvider>
     )
   }

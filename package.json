@@ -102,7 +102,8 @@
     "prune": "cd app && npm prune --production",
     "test": "jest",
     "compile-scripts": "babel --ignore node_modules --compact true --source-maps inline --minified --extensions .jsx build/ -d build/",
-    "gen-translations": "npm run -s compile-scripts && node build/gen_translations.js",
+    "clean-translations": "rimraf build/translations",
+    "gen-translations": "npm run -s clean-translations && npm run -s compile && npm run -s compile-scripts && node build/gen_translations.js",
     "pre-build": "npm run -s compile && npm run -s prune && npm run -s build",
     "build": "npm run -s build-linux || npm run -s build-mac || npm run -s build-win",
     "build-linux": "npm run pre-build && build --x64 --linux",
@@ -128,6 +129,7 @@
     "jest-cli": "^19.0.2",
     "jsdoc": "^3.4.3",
     "jsdoc-babel": "^0.3.0",
+    "rimraf": "^2.6.1",
     "standard": "^10.0.0"
   }
 }

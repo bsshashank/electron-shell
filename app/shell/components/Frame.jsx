@@ -16,9 +16,19 @@ const { MainLayout, Home, SettingsManager } = Views
 import { WindowStyle } from '../styles/ControlStyles'
 import TitleBar from './TitleBar'
 
+import type { IExtension } from 'electron-shell-lib'
+
 /**
  * [Frame description]
  * @param {[type]} intl            [description]
+ * @param {[type]} extensions      [description]
+ * @param {[type]} platform        [description]
+ * @param {[type]} appName         [description]
+ * @param {[type]} appVersion      [description]
+ * @param {[type]} closeHandler    [description]
+ * @param {[type]} maximizeHandler [description]
+ * @param {[type]} minimizeHandler [description]
+ * @param {[type]} extensions      [description]
  * @param {[type]} platform        [description]
  * @param {[type]} appName         [description]
  * @param {[type]} appVersion      [description]
@@ -26,7 +36,7 @@ import TitleBar from './TitleBar'
  * @param {[type]} maximizeHandler [description]
  * @param {[type]} minimizeHandler [description]
  */
-const Frame = ({ intl, platform, appName, appVersion, closeHandler, maximizeHandler, minimizeHandler }: { intl: intlShape, platform: string, appName: string, appVersion: string, closeHandler: Function, maximizeHandler: Function, minimizeHandler: Function }) => {
+const Frame = ({ intl, extensions, platform, appName, appVersion, closeHandler, maximizeHandler, minimizeHandler }: { intl: intlShape, extensions: Array<IExtension>, platform: string, appName: string, appVersion: string, closeHandler: Function, maximizeHandler: Function, minimizeHandler: Function }) => {
 
   const messages = defineMessages({
     appTitle: {
@@ -54,10 +64,23 @@ const Frame = ({ intl, platform, appName, appVersion, closeHandler, maximizeHand
   const { formatMessage } = intl
 
   let menuConfig = [
-    { type: 'link', href: '/', icon: ic_home, name: formatMessage(messages.appMnuHome) },
+    { type: 'link', href: '/', icon: ic_home, name: formatMessage(messages.appMnuHome) }
+  ]
+
+  menuConfig.push(...extensions.map(e => {
+      return ({
+        type: 'link',
+        href: `/${e.initialRoute}`,
+        icon: e.linkIcon,
+        name: e.name
+      })
+    })
+  )
+
+  menuConfig.push(...[
     { type: 'spacer' },
     { type: 'link', href: '/settings', icon: ic_settings, name: formatMessage(messages.appMnuSettings) }
-  ]
+  ])
 
   return (
     <div style={[WindowStyle]}>
@@ -66,6 +89,12 @@ const Frame = ({ intl, platform, appName, appVersion, closeHandler, maximizeHand
       <BrowserRouter>
         <MainLayout title={formatMessage(messages.appMnuTitle, { pkgname: appName })} menu={menuConfig}>
           <Switch>
+            { extensions.map(e => {
+                return (
+                  <Route key={e.initialRoute} path={`/${e.initialRoute}`} component={e.mainView} />
+                )
+              })
+            }
             <Route path='/settings' component={SettingsManager} />
             <Route component={Home} />
           </Switch>
