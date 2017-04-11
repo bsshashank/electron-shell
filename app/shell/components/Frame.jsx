@@ -36,7 +36,7 @@ import type { IExtension } from 'electron-shell-lib'
  * @param {[type]} maximizeHandler [description]
  * @param {[type]} minimizeHandler [description]
  */
-const Frame = ({ intl, extensions, platform, appName, appVersion, closeHandler, maximizeHandler, minimizeHandler }: { intl: intlShape, extensions: Array<IExtension>, platform: string, appName: string, appVersion: string, closeHandler: Function, maximizeHandler: Function, minimizeHandler: Function }) => {
+const Frame = ({ intl, extensions, platform, appName, appVersion, closeHandler, maximizeHandler, minimizeHandler, redirectTo }: { intl: intlShape, extensions: Array<IExtension>, platform: string, appName: string, appVersion: string, closeHandler: Function, maximizeHandler: Function, minimizeHandler: Function, redirectTo: string }) => {
 
   const messages = defineMessages({
     appTitle: {
@@ -64,7 +64,7 @@ const Frame = ({ intl, extensions, platform, appName, appVersion, closeHandler, 
   const { formatMessage } = intl
 
   let menuConfig = [
-    { type: 'link', href: '/', icon: ic_home, name: formatMessage(messages.appMnuHome) }
+    { type: 'link', href: redirectTo, icon: ic_home, name: formatMessage(messages.appMnuHome) }
   ]
 
   menuConfig.push(...extensions.map(e => {
@@ -96,7 +96,14 @@ const Frame = ({ intl, extensions, platform, appName, appVersion, closeHandler, 
               })
             }
             <Route path='/settings' component={SettingsManager} />
-            <Route component={Home} />
+            <Route path='/home' component={Home} />
+            <Route render={() => {
+              if (redirectTo === '/')
+                return (<Home />)
+              else
+                return (<Redirect to={redirectTo} />)
+              }
+            } />
           </Switch>
         </MainLayout>
       </BrowserRouter>

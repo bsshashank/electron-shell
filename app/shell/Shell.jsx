@@ -78,6 +78,9 @@ class Shell extends Reflux.Component {
     this.translationStore = Reflux.initStore(TranslationStore)
 
     this.stores = [ActivityStore, ExtensionStore, SettingStore, TranslationStore]
+    this.state = {
+      shellIsInitialized: false
+    }
   }
 
   componentDidMount() {
@@ -105,6 +108,8 @@ class Shell extends Reflux.Component {
           return this.settingManager.import.triggerAsync(defaultSettings)
         }).then(() => {
           return this.extensionManager.mountAll.triggerAsync()
+        }).then(() => {
+          this.setState({ shellIsInitialized: true })
         }).catch((err) => {
           console.log(err)
         })
@@ -169,22 +174,30 @@ class Shell extends Reflux.Component {
    * @return {type}  description
    */
   render() {
-    let activeExtensions = this.state.extensions.filter((e:ExtensionInfoType) => e.status === 'active')
-    const pluginFolder = path.join(this.fileStore.baseFolder, 'Plugins')
-    let extensions = activeExtensions.map((e:ExtensionInfoType) => {
-      let extItf:IExtension = utils.extensionLoader.tryLoadExtension(pluginFolder, e.startupPoint)
-      if (extItf) {
-        extItf.initialize(new FileStorage(this.config, extItf.id), [])
-      }
-      return extItf
-    })
-    return (
-      <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.localeData.intl}>
-        <Frame appName={this.config.app.name} appVersion={this.config.app.version} platform={this.config.platform}
-          closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
-          minimizeHandler={this.minimizeApp.bind(this)} extensions={extensions}/>
-      </IntlProvider>
-    )
+    if (!this.state.shellIsInitialized) {
+      return (
+        <div>Initializing....</div>
+      )
+    }
+    else {
+      let activeExtensions = this.state.extensions.filter((e:ExtensionInfoType) => e.status === 'active')
+      const pluginFolder = path.join(this.fileStore.baseFolder, 'Plugins')
+      let extensions = activeExtensions.map((e:ExtensionInfoType) => {
+        let extItf:IExtension = utils.extensionLoader.tryLoadExtension(pluginFolder, e.startupPoint)
+        if (extItf) {
+          extItf.initialize(new FileStorage(this.config, extItf.id), [])
+        }
+        return extItf
+      })
+      return (
+        <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.localeData.intl}>
+          <Frame appName={this.config.app.name} appVersion={this.config.app.version} platform={this.config.platform}
+            closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
+            minimizeHandler={this.minimizeApp.bind(this)}
+            extensions={extensions} redirectTo={`/${this.state.settings.app.initialRoute}`}/>
+        </IntlProvider>
+      )
+    }
   }
 }
 
