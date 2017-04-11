@@ -101,6 +101,9 @@ class Shell extends Reflux.Component {
         Promise.all(importJobs).then(() => {
           return this.translationManager.switchLocale.triggerAsync(this.config.defaultLocale)
         }).then(() => {
+          let defaultSettings = require(path.join(this.config.paths.appPath, 'assets/default_settings.json'))
+          return this.settingManager.import.triggerAsync(defaultSettings)
+        }).then(() => {
           return this.extensionManager.mountAll.triggerAsync()
         }).catch((err) => {
           console.log(err)

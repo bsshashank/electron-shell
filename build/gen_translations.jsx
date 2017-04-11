@@ -11,7 +11,7 @@ glob(__dirname + '/translations/**/*.json')
       let messages = require(translation)
       messages.forEach((message) => {
         let doc = {
-          "_id": message.id,
+          "id": message.id,
           "version": appPackage.version,
           "description": message.description,
           "defaultMessage": message.defaultMessage,
