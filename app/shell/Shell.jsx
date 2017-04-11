@@ -16,7 +16,7 @@ const { ActivityService, ExtensionManager, SettingManager, TranslationManager } 
 const { DocumentDatabase, FileStorage, SqlDatabase, TripleStore } = Storages
 const { ActivityStore, ExtensionStore, SettingStore, TranslationStore } = Stores
 
-import type { ApplicationConfig, IExtension,
+import type { ApplicationConfig, ExtensionInfoType, IExtension,
   ISqlDatabase, IDocumentDatabase, ITripleStore, IFileStorage,
   IActivityService, IExtensionManager, ISettingManager, ITranslationManager
 } from 'electron-shell-lib'
@@ -166,9 +166,14 @@ class Shell extends Reflux.Component {
    * @return {type}  description
    */
   render() {
-    let activeExtensions = this.state.extensions.filter((e) => e.status === 'active')
-    let extensions = activeExtensions.map((e) => {
-      return utils.extensionLoader.tryLoadExtension(e.location, e.file)
+    let activeExtensions = this.state.extensions.filter((e:ExtensionInfoType) => e.status === 'active')
+    const pluginFolder = path.join(this.fileStore.baseFolder, 'Plugins')
+    let extensions = activeExtensions.map((e:ExtensionInfoType) => {
+      let extItf:IExtension = utils.extensionLoader.tryLoadExtension(pluginFolder, e.startupPoint)
+      if (extItf) {
+        extItf.initialize(new FileStorage(this.config, extItf.id), [])
+      }
+      return extItf
     })
     return (
       <IntlProvider key={this.state.locale} locale={this.state.locale} messages={this.state.localeData.intl}>
