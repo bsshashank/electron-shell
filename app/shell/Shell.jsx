@@ -183,9 +183,10 @@ class Shell extends Reflux.Component {
       let activeExtensions = this.state.extensions.filter((e:ExtensionInfoType) => e.status === 'active')
       const pluginFolder = path.join(this.fileStore.baseFolder, 'Plugins')
       let extensions = activeExtensions.map((e:ExtensionInfoType) => {
-        let extItf:IExtension = utils.extensionLoader.tryLoadExtension(pluginFolder, e.startupPoint)
+        let extItf:IExtension = utils.extensionLoader.tryLoadExtension(pluginFolder, e.package)
         if (extItf) {
-          extItf.initialize(new FileStorage(this.config, extItf.id), [])
+          let extensionStorage:IFileStorage = this.fileStore.getExtensionFolder(extItf.id)
+          extItf.initialize(extensionStorage, this.state.settings[extItf.id] || {})
         }
         return extItf
       })
@@ -194,7 +195,7 @@ class Shell extends Reflux.Component {
           <Frame appName={this.config.app.name} appVersion={this.config.app.version} platform={this.config.platform}
             closeHandler={this.closeApp.bind(this)} maximizeHandler={this.toggleFullScreen.bind(this)}
             minimizeHandler={this.minimizeApp.bind(this)}
-            extensions={extensions} redirectTo={`/${this.state.settings.app.initialRoute}`}/>
+            extensions={extensions} redirectTo={`/${this.state.settings.app.defaultModule}`}/>
         </IntlProvider>
       )
     }

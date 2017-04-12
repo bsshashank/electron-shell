@@ -70,7 +70,7 @@ const Frame = ({ intl, extensions, platform, appName, appVersion, closeHandler, 
   menuConfig.push(...extensions.map(e => {
       return ({
         type: 'link',
-        href: `/${e.initialRoute}`,
+        href: `/${e.id.toLowerCase()}`,
         icon: e.linkIcon,
         name: formatMessage(e.name)
       })
@@ -91,7 +91,7 @@ const Frame = ({ intl, extensions, platform, appName, appVersion, closeHandler, 
           <Switch>
             { extensions.map(e => {
                 return (
-                  <Route key={e.initialRoute} path={`/${e.initialRoute}`} component={e.mainView} />
+                  <Route key={e.id} path={`/${e.id.toLowerCase()}`} component={e.mainView} />
                 )
               })
             }
