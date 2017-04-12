@@ -72,7 +72,7 @@ const Frame = ({ intl, extensions, platform, appName, appVersion, closeHandler, 
         type: 'link',
         href: `/${e.initialRoute}`,
         icon: e.linkIcon,
-        name: e.name
+        name: formatMessage(e.name)
       })
     })
   )
