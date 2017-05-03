@@ -81,7 +81,7 @@ class Shell extends Reflux.Component {
     this.settingStore = Reflux.initStore(SettingStore)
     this.translationStore = Reflux.initStore(TranslationStore)
 
-    this.stores = [ActivityStore, CommandStore, ExtensionStore, SettingStore, TranslationStore]
+    this.stores = [ActivityStore, ExtensionStore, SettingStore, TranslationStore]
     this.state = {
       shellIsInitialized: false
     }
@@ -192,7 +192,7 @@ class Shell extends Reflux.Component {
         let extItf:IExtension = utils.extensionLoader.tryLoadExtension(pluginFolder, e.package)
         if (extItf) {
           let extensionStorage:IFileStorage = this.fileStore.getExtensionFolder(extItf.id)
-          extItf.initialize(extensionStorage, this.commandHandler, this.state.settings[extItf.id] || {})
+          extItf.initialize(extensionStorage, this.commandHandler, this.state.settings[extItf.id] || {}, extItf.id.toLowerCase())
         }
         return extItf
       })
