@@ -91,7 +91,11 @@ const Frame = ({ intl, extensions, platform, appName, appVersion, closeHandler, 
           <Switch>
             { extensions.map(e => {
                 return (
-                  <Route key={e.id} path={`/${e.id.toLowerCase()}`} component={e.mainView} />
+                  <Route key={e.id} path={`/${e.defaultRoute}`} render={() => {
+                    return React.createElement(e.mainView,
+                          { fileStorage: e.fileStorage,
+                            settings: e.settings }, null)
+                  }} />
                 )
               })
             }
